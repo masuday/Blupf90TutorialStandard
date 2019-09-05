@@ -8,6 +8,7 @@ Quick links
 
 - [Index](./index.md)
 - [PDF documentation](https://github.com/masuday/Blupf90TutorialStandard/releases)
+- [HTML documentation](https://masuday.github.io/blupf90_tutorial/index.html)
 
 How can I build the documentation?
 ----------------------------------
