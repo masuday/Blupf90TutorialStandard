@@ -9,6 +9,7 @@ Quick links
 - [Index](./index.md)
 - [PDF documentation](https://github.com/masuday/Blupf90TutorialStandard/releases)
 - [HTML documentation](https://masuday.github.io/blupf90_tutorial/index.html)
+- [Numerical examples](https://github.com/masuday/data/tree/master/tutorial)
 
 How can I build the documentation?
 ----------------------------------
@@ -46,3 +47,10 @@ How can I modify the note?
 1. Make a branch.
 2. Modify the files and commit it.
 3. Make a pull request.
+
+Where can I get the numerical examples in this tutorials?
+---------------------------------------------------------
+
+The numerical examples and the files used in the tutorial are available at my Github repository. All the files in the repository are released in the public domain.
+
+- <https://github.com/masuday/data/tree/master/tutorial>
