@@ -94,11 +94,17 @@ $if(toc)$
 <nav id="$idprefix$TOC">
 $toc$
 </nav>
+<p>
+Back to <a href="./index.html">index.html</a>.
+</p>
 $endif$
 $body$
 $for(include-after)$
 $include-after$
 $endfor$
+<p>
+Back to <a href="./index.html">index.html</a>.
+</p>
 </article>
 </body>
 </html>
