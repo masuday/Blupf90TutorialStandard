@@ -7,6 +7,9 @@ tags: [introduction,tutorial]
 ...
 
 This chapter provides an instruction on RENUMF90 to prepare the files for data, pedigree, genomic markers, and parameters. 
-LUPF90 requires several files with a particular format which the "raw" data may not have.
+BLUPF90 requires several files with a particular format which the "raw" data may not have.
 RENUMF90 can check the raw files and convert them to new files suitable for the BLUPF90 suite.
 We will start with a minimal example as before.
+
+More examples are available at the authors's Github repository [https://github.com/masuday/data](https://github.com/masuday/data).
+You will find example files with more complicated models including random regressions, maternal effects, a model with unknown parent groups (UPGs), and GBLUP models.
