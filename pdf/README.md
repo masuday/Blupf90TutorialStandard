@@ -1,7 +1,7 @@
-The pdf file is available from the release page.
+The pdf file is available at the release page.
 
 - <https://github.com/masuday/Blupf90TutorialStandard/releases>
 
-Or, you can get the file from the wiki at the UGA website.
+Or, you can get the file at the wiki at the UGA website.
 
 - <http://nce.ads.uga.edu/wiki/doku.php?id=documentation>
