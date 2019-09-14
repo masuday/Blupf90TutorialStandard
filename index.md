@@ -32,7 +32,7 @@ tags: [introduction,tutorial]
 - [Running a program in Windows](./installation_windows.html)
 - [Running a program in Linux and MacOS X](./installation_linux.html)
 - [Additional settings](./installation_env.html)
-- [Setup a html editor](./installation_editor.html)
+- [Setup a text editor](./installation_editor.html)
 
 ## Quick tour of BLUPF90
 
