@@ -90,20 +90,30 @@ Numerical example
 
 ### Files ###
 
-We will use the similar files used in the summer course at the UGA in 2012.
+We will use the similar numerical-examples used in the summer course at the UGA in 2012.
+I made some corrections on the files.
+The modified package is available at the author's repository.
 
-   - <http://nce.ads.uga.edu/wiki/lib/exe/fetch.php?media=lab_gwas.zip> - `lab_gaws.zip`
+   - `lab_gwas_mod2019.zip` at <https://github.com/masuday/data/blob/master/tutorial/examples/genomic_analysis/>
 
-We made some corrections on the files. Download the zip package and extract it to your computer. It
-has several files like
+Download the zip package and extract it to your computer.
+It has several files as follows.
 
 - `phenotypes.txt` = observation data file
 - `pedigree` = pedigree file
 - `marker.geno.clean` = marker file
-- `chemap` = chromosome map file
-- `w` = weight file
+- `chrmap.txt` = chromosome map file
+- `w` = the default weight file
 - `renum.par` = instruction file for RENUMF90
 
+The package also has two Bash scripts to automate the process in renumbering and ssGWAS.
+I do not explain how it works -- you can try the following scripts after you finish reading all the content in the following sections.
+
+- `run_renum.sh` = for renumbering, and for generating the parameter files
+- `run_ssgwas.sh` = for iterative ssGWAS with BLUPF90 and POSTGSF90
+
+The files have been created on Linux (or macOS), and some Windows editors may not show the content correctly because of the "return" code.
+You can see some more files in the directory, but such files will not be used in this section.
 We will start with RENUMF90 to prepare the data set.
 
 Preparation
@@ -112,7 +122,8 @@ Preparation
 First, we run RENUMF90 to generate the required files. After renumbering, we can see `renf90.par`,
 a template parameter file. We make 2 copies of this template; one is for BLUPF90 and another one
 is for POSTGSF90. Here, we use `param_ssgwas1a.txt` as the parameter file for BLUPF90 and
-`param_ssgwas1b.txt` for POSTGSF90.
+`param_ssgwas1b.txt` for POSTGSF90. The parameter files are availabe at the author's Github repository:
+<https://github.com/masuday/data/tree/master/tutorial>.
 
 BLUPF90 will generate $\mathbf{G}$ with weights, supplied as a weight file (see the previous section). The
 zip package contains a weight file (`w`), and the option in the parameter file refers to the weight file. Following is the whole
@@ -212,6 +223,9 @@ with the different parameter file `param_ssgwas1b.txt`. POSTGSF90 creates severa
      5. Chromosome
      6. Position
 
+<!--
+By default, POSTGSF90 does not create the `dgv` file.
+The option `OPTION snp_effect_dgv` will create this file.
 
 - `dgv` = Direct genomic values for genotyped animal. It has 5 columns.
 
@@ -220,7 +234,7 @@ with the different parameter file `param_ssgwas1b.txt`. POSTGSF90 creates severa
      3. Animal ID
      4. DGV (direct genomic value) = $-\sum_{j\neq i}g^{ij}\hat{u}_{j}\Big/g^{ii}$; see Lourenco et al. (2015).
      5. PP (pedigree prediction) = $-\sum_{j\neq i}a_{22}^{ij}\hat{u}_{j}\Big/a_{22}^{ii}$; see Lourenco et al. (2015).
-
+-->
 
 - `snp_pred` = Used in the program to predict GEBV based on the SNP effects. A user doesn't
         have to know the exact format.
