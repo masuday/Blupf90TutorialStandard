@@ -1,4 +1,5 @@
 - March 2018 (0.8.0): The first revision prepared for the summer course at UGA. Thanks to Andrés Legarra.
 - April 2019 (0.9.0): Revised to correct some errors and typos.
 - May 2019 (0.9.1): Minor update.
-- September 2019 (1.0): Revised to make a massive correction on errors and typos, to improve many sentences in readability, and to add new paragraphs.
+- September 5, 2019 (1.0.0): Revised to make a massive correction on errors and typos, to improve many sentences in readability, and to add new paragraphs.
+- September 22, 2019 (1.0.1): Revised to fix some typos and errors. Updated the example for ssGWAS.
