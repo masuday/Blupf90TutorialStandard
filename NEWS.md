@@ -1,6 +1,11 @@
 News
 ====
 
+Version 1.0.2: updates from version 1.0.1
+-----------------------------------------
+
+- Change the single-quotation code. (`binsol_to_textsol.f90`)
+
 Version 1.0.1: updates from version 1.0.0
 -----------------------------------------
 
