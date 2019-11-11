@@ -124,6 +124,8 @@ intercept. If you put 2 numbers in `hetres_pos` and also put 2 initial values in
 program doesn't add the intercept. In such a case, the model doesn't contain any intercept but does
 contain user-supplied covariates only.
 
+Note that these options do not work with `OPTION EM-REML`.
+The current version of AIREMLF90 will tell you this limitation when the program meets this condition.
 
 ### Results ###
 

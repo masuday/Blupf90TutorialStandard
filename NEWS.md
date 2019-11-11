@@ -6,6 +6,7 @@ Updates from version 1.0.1
 
 - Changed the single-quotation code. (`binsol_to_textsol.f90`)
 - Updated the support hub from Yahoo Groups to Groups.io. (`introduction_condition.md`)
+- Added a notation that the heterogeneous residual variances will not work with the `EM-REML` option in AIREMLF90. (`vc_advanced_aireml.md`)
 
 Version 1.0.1: updates from version 1.0.0
 -----------------------------------------
