@@ -4,7 +4,8 @@ News
 Updates from version 1.0.1
 -----------------------------------------
 
-- Change the single-quotation code. (`binsol_to_textsol.f90`)
+- Changed the single-quotation code. (`binsol_to_textsol.f90`)
+- Updated the support hub from Yahoo Groups to Groups.io. (`introduction_condition.md`)
 
 Version 1.0.1: updates from version 1.0.0
 -----------------------------------------

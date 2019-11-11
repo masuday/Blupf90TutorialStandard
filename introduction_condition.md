@@ -22,8 +22,9 @@ Bug report and support
 
 A bug report is welcome.
 Please contact one of the developers at UGA or the other institutes.
-Or, please post the report to Yahoo Group (<https://groups.yahoo.com/neo/groups/blupf90/info>).
-Limited support may be available at Yahoo Group because the support is volunteer-based.
+Or, please post the report to Groups.io (<https://groups.io/g/blupf90>).
+Limited support may be available at Groups.io because the support is volunteer-based.
+Note that we have moved from Yahoo Groups to Groups.io because of the policy change by Yahoo.
 Github Issues is also a place for discussion (`https://github.com/ABGG-UGA/blupf90-public`).
 If you need full support for the programs, please consider visiting our team.
 
