@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,23 +12,15 @@ Multiple-trait model with no environmental covariance
 Model
 -----
 
-Assuming a 2-trait model, there is a situation where some animals are recorded only in one trait
-and the other animals are recorded only in another trait. In other words, no animals have
-observations for both traits. This situation also happens when evaluating genotype by environment
-(G by E) effects. Animals in the environment 1 don't have records in environment 2, and vice versa.
-In this case, we should assume that the residual covariance is exactly zero.
+Assuming a 2-trait model, there is a situation where some animals are recorded only in one trait and the other animals are recorded only in another trait. In other words, no animals have observations for both traits. This situation also happens when evaluating genotype by environment (G by E) effects. Animals in the environment 1 do not have records in environment 2, and vice versa. In this case, we should assume that the residual covariance is exactly zero.
 
-The author assumes dual-purpose sires in cattle. The male and female calves are raised in
-different feeding systems. Male calves are recorded for yearling weight and females for fat yield.
-The genetic covariance is nonzero but the residual covariance is zero.
-Note that the results from BLUPF90 must be different from the values in the textbook.
+The author assumes dual-purpose sires in cattle. The male and female calves are raised in different feeding systems. Male calves are recorded for yearling weight and females for fat yield. The genetic covariance is nonzero but the residual covariance is zero. Note that the results from BLUPF90 must be different from the values in the textbook.
 
 
 Files
 -----
 
-The data set (`data_mr05d.txt`) is shown in the textbook at p.85.
-Animal 4 can be omitted in the data file because it has no observations.
+The data set (`data_mr05d.txt`) is shown in the textbook at p.85. Animal 4 can be omitted in the data file because it has no observations.
 
 1. Animal ID (Calf)
 2. Sex (1=male and 2=female)

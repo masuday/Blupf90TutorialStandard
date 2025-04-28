@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,17 +12,9 @@ Joint analysis of quantitative and binary traits
 Model
 -----
 
-We can consider a 2-trait model with one threshold trait and one continuous trait. When we use Gibbs
-sampling to draw the posterior distribution for a location parameter, we can simply obtain a solution
-as the posterior mean. However, once we try to calculate the solutions without Gibbs sampling, the
-resulting equations become nonlinear and a complicated strategy is needed to solve the equations.
-See Wang et al. (1997) for detailed discussion. For the threshold trait, the solutions obtained with
-anyways should be converted differently as the regular threshold model. The author cited
-Foulley et al. (1983) and explains how to do it.
+We can consider a 2-trait model with one threshold trait and one continuous trait. When we use Gibbs sampling to draw the posterior distribution for a location parameter, we can simply obtain a solution as the posterior mean. However, once we try to calculate the solutions without Gibbs sampling, the resulting equations become nonlinear and a complicated strategy is needed to solve the equations. See Wang et al. (1997) for detailed discussion. For the threshold trait, the solutions obtained with anyways should be converted differently as the regular threshold model. The author cited Foulley et al. (1983) and explains how to do it.
 
-In this section, we will simply use THRGIBBS1F90 to draw the posterior mean for a location
-parameter. In this example, we have only 1 threshold, so the program fixes the threshold to 0 and
-the residual variance to 1.0.
+In this section, we will simply use THRGIBBS1F90 to draw the posterior mean for a location parameter. In this example, we have only 1 threshold, so the program fixes the threshold to 0 and the residual variance to 1.0.
 
 File
 ----
@@ -99,10 +91,7 @@ The pedigree file contains a sire, sire of the sire, and the maternal grand-sire
 6 2 3
 ~~~~~
 
-As the author mentions, we should use the corrected genetic parameters ($\mathbf{G}_{c}$) as shown on p.235.
-The residual variance is 1.0 for CD and 20.0 for BW, and the residual covariance is 2.0527
-because the residual correlation is 0.459. The parameter file is as follows. In
-our case, we exchange the order of traits i.e. the trait 1 is CD and the trait 2 is BW.
+As the author mentions, we should use the corrected genetic parameters ($\mathbf{G}_{c}$) as shown on p.235. The residual variance is 1.0 for CD and 20.0 for BW, and the residual covariance is 2.0527 because the residual correlation is 0.459. The parameter file is as follows. In our case, we exchange the order of traits that is the trait 1 is CD and the trait 2 is BW.
 
 ~~~~~{language=blupf90 caption="param_mr13b.txt"}
 DATAFILE
@@ -136,8 +125,7 @@ OPTION cat 2 0
 OPTION fixed_var mean
 ~~~~~
 
-Run THRGIBBS1F90 to draw 20,000 enough samples (saved in every 10 steps) and discard the
-first 10,000 samples as burn-in. You can see the following solutions.
+Run THRGIBBS1F90 to draw 20,000 enough samples (saved in every 10 steps) and discard the first 10,000 samples as burn-in. You can see the following solutions.
 
 ~~~~~{language=text caption="solutions"}
 trait/effect level  solution        SD
@@ -167,12 +155,9 @@ trait/effect level  solution        SD
    2   4         6          0.16620116          0.78877094
 ~~~~~
 
-The estimated values are close to the reference values (p.237). The small difference comes from a
-limited number of observations. If you put zero-constraints on the fixed effects, you may obtain
-more similar values as in the textbook.
+The estimated values are close to the reference values (p.237). The small difference comes from a limited number of observations. If you put zero-constraints on the fixed effects, you may obtain more similar values as in the textbook.
 
-Just for comparison, we show the results from CBLUP90THR with the same files shown above.
-The estimated threshold is $-0.0198$ with 100 rounds.
+Just for comparison, we show the results from CBLUP90THR with the same files shown above. The estimated threshold is $-0.0198$ with 100 rounds.
 
 ~~~~~{language=text caption="solutions"}
 trait/effect level  solution

@@ -1,7 +1,7 @@
 ---
 title: Introduction to BLUPF90 suite programs
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -24,6 +24,7 @@ tags: [introduction,tutorial]
 - [Differences with other software](./introduction_difference.html)
 - [About the software](./introduction_condition.html)
 - [About this tutorial](./introduction_about.html)
+- [New programs](./introduction_plus.html)
 
 ## Download and Installation
 
@@ -54,9 +55,9 @@ tags: [introduction,tutorial]
 
 ## Variance component estimation
 
-- [Restricted (residual) maximum likelihood with AIREMLF90](./vc_aireml.html)
+- [Restricted (residual) maximum likelihood with AIREMLF90 (BLUPF90+)](./vc_aireml.html)
 - [Gibbs sampling and post-Gibbs analysis](./vc_gs.html)
-- [Advanced usage of AIREMLF90](./vc_advanced_aireml.html)
+- [Advanced usage of AIREMLF90 (BLUPF90+)](./vc_advanced_aireml.html)
 - [Advanced features for Gibbs sampling programs](./vc_advanced_gs.html)
 
 ## Numerical examples from Mrode (2014)

@@ -1,7 +1,7 @@
 ---
 title: References
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...

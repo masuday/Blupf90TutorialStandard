@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,13 +12,9 @@ Multiple-trait model with equal design matrix and missing records
 Model
 -----
 
-Here we apply the same model described in the previous example to the data with missing
-observations. Model descriptions and mixed model equations are identical as before.
+Here we apply the same model described in the previous example to the data with missing observations. Model descriptions and mixed model equations are identical as before.
 
-With a missing observation, $\mathbf{R}_0$ and its inverse should be altered. For example, assuming a 2
-trait model, if the observation of the first trait is missing, the first row and column in $\mathbf{R}_0$ should be
-zeroed out. The corresponding inverse is the generalized inverse of this altered $\mathbf{R}_0$. Illustrating this
-situation with the previous example, the result is
+With a missing observation, $\mathbf{R}_0$ and its inverse should be altered. For example, assuming a 2 trait model, if the observation of the first trait is missing, the first row and column in $\mathbf{R}_0$ should be zeroed out. The corresponding inverse is the generalized inverse of this altered $\mathbf{R}_0$. Illustrating this situation with the previous example, the result is
 $$
 \mathbf{R}_{0}
 =
@@ -48,19 +44,13 @@ $$
 \right].
 $$
 
-The generalized inverse of this zeroed matrix is equivalent to the inverse of a matrix containing
-only nonzero elements in the zeroed matrix (Searle, 1971).
-BLUPF90 can detect a missing observation and prepares an appropriate $\mathbf{R}_{0}$ and its generalized
-inverse.
+The generalized inverse of this zeroed matrix is equivalent to the inverse of a matrix containing only nonzero elements in the zeroed matrix (Searle, 1971). BLUPF90 can detect a missing observation and prepares an appropriate $\mathbf{R}_{0}$ and its generalized inverse.
 
 
 Files
 -----
 
-One animal is added to the previous example and 2 observations are marked as missing.
-The missing observation is indicated as 0, which is the default missing code used in the BLUPF90 family
-(`data_mr05b.txt`).
-We can use an extended pedigree file as the previous one by adding the animal 9 (`pedigree_mr05b.txt`).
+One animal is added to the previous example and 2 observations are marked as missing. The missing observation is indicated as 0, which is the default missing code used in the BLUPF90 family (`data_mr05b.txt`). We can use an extended pedigree file as the previous one by adding the animal 9 (`pedigree_mr05b.txt`).
 
 The parameter file is also identical except for omitting an option for standard error calculations.
 

@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -16,9 +16,7 @@ We consider the standard animal model
 $$
 \mathbf{y}=\mathbf{Xb}+\mathbf{Wu}+\mathbf{e}.
 $$
-If some animals are genotyped, their additive relationships are described with the genomic
-relationship matrix ($\mathbf{G}$). When the genotyped and the non-genotyped animals are simultaneously
-considered in the relationship matrix, the resulting matrix is $\mathbf{H}$. Its inverse falls into a simple form.
+If some animals are genotyped, their additive relationships are described with the genomic relationship matrix ($\mathbf{G}$). When the genotyped and the non-genotyped animals are simultaneously considered in the relationship matrix, the resulting matrix is $\mathbf{H}$. Its inverse falls into a simple form.
 $$
 \mathbf{H}^{-1}
 =
@@ -31,8 +29,7 @@ $$
 \end{array}
 \right]
 $$
-This $\mathbf{G}^{-1}$ is usually blended with the pedigree matrix ($\mathbf{G}^{-1}_{w}$ shown in the previous section). The system of mixed model equations is the same as
-the standard animal model with $\mathbf{H}^{-1}$ instead of $\mathbf{A}^{-1}$:
+This $\mathbf{G}^{-1}$ is usually blended with the pedigree matrix ($\mathbf{G}^{-1}_{w}$ shown in the previous section). The system of mixed model equations is the same as the standard animal model with $\mathbf{H}^{-1}$ instead of $\mathbf{A}^{-1}$:
 $$
 \left[
 \begin{array}{ll}
@@ -54,15 +51,13 @@ $$
 \end{array}
 \right]
 $$
-where $\sigma_u^2 = 35.241$ and $\sigma_e^2 = 245.0$ in this case. BLUPF90 fully supports ssGBLUP with a
-minimal description in the parameter file.
+where $\sigma_u^2 = 35.241$ and $\sigma_e^2 = 245.0$ in this case. BLUPF90 fully supports ssGBLUP with a minimal description in the parameter file.
 
 
 Files
 -----
 
-The data file is different from the previous ones (`data_mr11e.txt`).
-The pedigree information is common to the previous analysis (`pedigree_mr11e.txt`).
+The data file is different from the previous ones (`data_mr11e.txt`). The pedigree information is common to the previous analysis (`pedigree_mr11e.txt`).
 
 The SNP marker file is unique for this analysis.
 
@@ -119,11 +114,7 @@ OPTION thrStopCorAG 0.10
 OPTION solv_method FSPAK
 ~~~~~
 
-BLUPF90 (actually the embedded genomic routine) may stop because of the very low correlation between
-diagonals from $\mathbf{G}$ and $\mathbf{A}_{22}$. The correlation should be usually high enough; otherwise, there may be
-a problem in the quality of the genotypes or the pedigree. It is low in this case
-due to the small data set. The option `thrStopCorAG` prevents the program from stopping from the low
-correlation.
+BLUPF90 (actually the embedded genomic routine) may stop because of the very low correlation between diagonals from $\mathbf{G}$ and $\mathbf{A}_{22}$. The correlation should be usually high enough; otherwise, there may be a problem in the quality of the genotypes or the pedigree. It is low in this case due to the small data set. The option `thrStopCorAG` prevents the program from stopping from the low correlation.
 
 
 Solutions

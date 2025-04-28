@@ -21,6 +21,7 @@ TEXSRC = \
     introduction_condition.tex \
     introduction_difference.tex \
     introduction_short.tex \
+    introduction_plus.tex \
     largescale_issues.tex \
     largescale_pcg.tex \
     largescale_reliability.tex \
@@ -89,6 +90,7 @@ HTMLSRC = \
     introduction_about.html \
     introduction_condition.html \
     introduction_difference.html \
+    introduction_plus.html \
     introduction_short.html \
     largescale_issues.html \
     largescale_pcg.html \
@@ -153,18 +155,23 @@ tutorial_blupf90.pdf: tutorial_blupf90.tex $(TEXSRC)
 	cp tutorial_blupf90.pdf pdf/
 
 acknowledgment.tex: acknowledgment.md
-	pandoc -t latex --listings -o $@ $<
+#	pandoc -t latex --listings -o $@ $<
+	pandoc -t latex --lua-filter=remove-softbreaks.lua --listings -o $@ $<
 
 .md.tex:
-	pandoc -t latex --top-level-division=section --listings -o $@ $<
+#   pandoc -t latex --top-level-division=section --listings -o $@ $<
+	pandoc -t latex --top-level-division=section --lua-filter=remove-softbreaks.lua --listings -o $@ $<
 
 .md.html:
-#	pandoc --mathjax -smart -s -t html --toc --toc-depth=2 --template Github.html5.txt -o $@ $<
-	pandoc --mathjax -t html --toc --toc-depth=2 --template Github.html5.txt -o $@ $<
+#	pandoc --mathjax -smart -s -t html --toc --toc-depth=2 --template GitHub.html5.txt -o $@ $<
+#	pandoc --mathjax -t html --toc --toc-depth=2 --template GitHub.html5.txt -o $@ $<
+	pandoc --mathjax -t html --toc --toc-depth=2 --lua-filter=remove-softbreaks.lua --template GitHub.html5.txt -o $@ $<
 	mv $@ html/
 
 img:
 	cp -p *.png html/
 
 clean:
-	rm -f *~ *.html tutorial*.pdf *.aux *.log *.out *.toc *.idx [^t]*.tex pdf/*.pdf html/*.html html/*.png
+	rm -f *~ *.html tutorial*.pdf *.aux *.log *.out *.toc *.idx pdf/*.pdf html/*.html html/*.png
+	rm -f *~ *.tex
+	cp tutorial_blupf90.txt tutorial_blupf90.tex

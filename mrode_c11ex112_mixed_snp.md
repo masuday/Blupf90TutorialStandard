@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,17 +12,11 @@ Mixed linear model for computing SNP effects
 Model
 -----
 
-When we have many SNP markers, we can expect that almost all the additive genetic variation can be
-captured by the markers. In this case, the marker effects should be random because of too many
-effects to be estimated compared with the number of observations. With the random marker model,
-we might not need the polygenic effect. In this example, the author assumes the following model:
+When we have many SNP markers, we can expect that almost all the additive genetic variation can be captured by the markers. In this case, the marker effects should be random because of too many effects to be estimated compared with the number of observations. With the random marker model, we might not need the polygenic effect. In this example, the author assumes the following model:
 $$
 y_{i} = \mu + \sum_{k=1}^{m}z_{ik} g_{k} + u_{i} + e_{i} = \mathbf{1}\mu + \mathbf{Zu} + \mathbf{e}
 $$
-where $y_i$ is the observation of animal $i$, $\mu$ is the general mean, $m$ is the number of markers to
-be considered, $z_{ik}$ is the $k$-th weighted marker genotype of the animal i.e. the $(i,k)$ element in $\mathbf{Z}$,
-$g_k$ is the $k$-th fixed SNP effectm, and $e_i$ is the residual effect.
-The system of mixed model equations is
+where $y_i$ is the observation of animal $i$, $\mu$ is the general mean, $m$ is the number of markers to be considered, $z_{ik}$ is the $k$-th weighted marker genotype of the animal that is the $(i,k)$ element in $\mathbf{Z}$, $g_k$ is the $k$-th fixed SNP effectm, and $e_i$ is the residual effect. The system of mixed model equations is
 $$
 \left[
 \begin{array}{ll}
@@ -44,11 +38,7 @@ $$
 \end{array}
 \right].
 $$
-The residual variance was shown as $\sigma_e^2 = 245.0$ in the textbook. The marker variance ($\sigma_g^2$) can be
-estimated based on the additive genetic variance ($\sigma_u^2$) using
- $\sigma_u^2/\left[2\sum p_j(1-p_j)\right]$ where $p_j$ is the allele frequency for marker $j$. In this example,
-the author uses the latter equation and shows $2\sum p_j(1-p_j) = 3.5383$ so the variance components
-are $\sigma_g^2 = 35.242/3.5382 = 9.96$.
+The residual variance was shown as $\sigma_e^2 = 245.0$ in the textbook. The marker variance ($\sigma_g^2$) can be estimated based on the additive genetic variance ($\sigma_u^2$) using  $\sigma_u^2/\left[2\sum p_j(1-p_j)\right]$ where $p_j$ is the allele frequency for marker $j$. In this example, the author uses the latter equation and shows $2\sum p_j(1-p_j) = 3.5383$ so the variance components are $\sigma_g^2 = 35.242/3.5382 = 9.96$.
 
 
 Files
@@ -123,19 +113,13 @@ FILE
 OPTION solv_method FSPAK
 ~~~~~
 
-In the above parameter file, we defined 10 SNP effects as a group of random effects. The covariances
-among the effects are 0 so all the SNP effects are independent to each other. This description is
-equivalent to separately define each SNP effect (i.e. 10 `RANDOM_GROUP` blocks). A user can confirm that
-these 2 parameter files produce the same results.
+In the above parameter file, we defined 10 SNP effects as a group of random effects. The covariances among the effects are 0 so all the SNP effects are independent to each other. This description is equivalent to separately define each SNP effect (that is 10 `RANDOM_GROUP` blocks). A user can confirm that these 2 parameter files produce the same results.
 
 
 Solutions
 ---------
 
-We should carefully look at the results shown in the textbook (p.185). The solutions from the
-weighted analysis seem inaccurate. The solutions come from the analysis with EDC (column
-5) and the results are not correct. The correct weight is the inverse of EDC (column 7), and the
-following solutions in our analysis should be correct.
+We should carefully look at the results shown in the textbook (p.185). The solutions from the weighted analysis seem inaccurate. The solutions come from the analysis with EDC (column 5) and the results are not correct. The correct weight is the inverse of EDC (column 7), and the following solutions in our analysis should be correct.
 
 ~~~~~{language=text caption="solutions"}
 trait/effect level  solution

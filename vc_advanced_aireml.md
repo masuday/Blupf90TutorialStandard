@@ -1,30 +1,23 @@
 ---
 title: Variance component estimation
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
 
-Advanced usage of AIREMLF90
-===========================
+Advanced usage of AIREMLF90 (BLUPF90+)
+======================================
 
 Heterogeneous residual variances
 --------------------------------
 
-There is a situation where the residual variances vary over conditions. This is known as heterogeneous
- residual variances. There are 2 types of modeling for the heterogeneous residual variances in AIREMLF90.
+There is a situation where the residual variances vary over conditions. This is known as heterogeneous residual variances. There are 2 types of modeling for the heterogeneous residual variances in AIREMLF90.
 
-1. The residual variance is related to a covariate. For example, the residual variance for body
-   weight increase by age of a month. The residual variance can be described as a function of a
-   covariate (age).
-2. The residual variance differs by class. For example, in a test-day random-regression model,
-   we usually assume different residual variance in each lactation stage. The residual variances
-   are independent of each other.
+1. The residual variance is related to a covariate. For example, the residual variance for body weight increase by age of a month. The residual variance can be described as a function of a covariate (age).
+2. The residual variance differs by class. For example, in a test-day random-regression model, we usually assume different residual variance in each lactation stage. The residual variances are independent of each other.
 
-Although AIREMLF90 is designed to handle the first case, the program can also handle the
-second case with a trick. We will see both cases with a numerical example in REML.
-GIBBS3F90 (and THRGIBBS3F90) supports the second case.
+Although AIREMLF90 is designed to handle the first case, the program can also handle the second case with a trick. We will see both cases with a numerical example in REML. GIBBS3F90 and THRGIBBS3F90 (now GIBBSF90+) supports the second case.
 
 
 ### Model ###
@@ -33,26 +26,21 @@ In this example, we asuume the following model:
 $$
 y_{ijkl} = F_{i} + S_{j} +Y_{k} + u_{l} + e_{ijkl}
 $$
-where $y_{ijkl}$ is the observation, $F_{i}$ , $S_j$, and $Y_k$ are the fixed effects, $u_l$ is the additive genetic effect and
-$e_{ijkl}$ is the residual effect. The residual variance is defined as the following function
+where $y_{ijkl}$ is the observation, $F_{i}$ , $S_j$, and $Y_k$ are the fixed effects, $u_l$ is the additive genetic effect and $e_{ijkl}$ is the residual effect. The residual variance is defined as the following function
 $$
 \sigma_e^2 = \exp(b_0 + b_1 x_{ijkl})
 $$
-where $b_0$ and $b_1$ are the regression coefficients to account for the residual variance and $x_{ijkl}$ is the
-covariate measured with the observation $y_{ijkl}$. The model is based on Foulley and Quaas (1995).
-AIREMLF90 will estimate $b_0$ and $b_1$ with user-supplied $x_{ijkl}$.
+where $b_0$ and $b_1$ are the regression coefficients to account for the residual variance and $x_{ijkl}$ is the covariate measured with the observation $y_{ijkl}$. The model is based on Foulley and Quaas (1995). AIREMLF90 will estimate $b_0$ and $b_1$ with user-supplied $x_{ijkl}$.
 
 
 ### Data ###
 
-In this section, we will use simulated files similar to the previous section. You can download the
-files from Github.
+In this section, we will use simulated files similar to the previous section. You can download the files from Github.
 
 - [`simdata2.txt`](https://github.com/Masuday/data/blob/master/tutorial/simdata2.txt) : data file
 - [`simped2.txt`](https://github.com/Masuday/data/blob/master/tutorial/simped2.txt) : pedigree file
 
-The pedigree file contains 3 columns: animal, sire, and dam. The data file has 12 columns as
-described below.
+The pedigree file contains three columns: animal, sire, and dam. The data file has 12 columns as described below.
 
 Column  Item           type      description
 ------  ---------      -------   ----------------------------------
@@ -71,10 +59,7 @@ Column  Item           type      description
 13      Covariate      real      Related to residual variance
 14      Class          integer   (Used in the next subsection)
 
-Column 13 contains a real value as a covariate.
-In this artificial data, the residual variance is expected to be larger as the covariate becomes larger.
-The 14th column contains the heterogeneous-residual-variance class (3 levels), and it
-will be used in the next subsection.
+Column 13 contains a real value as a covariate. In this artificial data, the residual variance is expected to be larger as the covariate becomes larger. The 14th column contains the heterogeneous-residual-variance class (3 levels), and it will be used in the next subsection.
 
 
 ### Parameter file ###
@@ -113,19 +98,14 @@ OPTION hetres_pol 4.5 0.5
 
 The options define the model for heterogeneous residual variances.
 
-- `OPTION hetres_pos` = the position of covariate $x$ in the data file. Intercept $b_0$ is implicitly considered in
-  the program.
+- `OPTION hetres_pos` = the position of covariate $x$ in the data file. Intercept $b_0$ is implicitly considered in the program.
 - `OPTION hetres_pol` = the starting values for $b_{0}$ and $b_{1}$.
-     - You should supply the values for all coefficients including intercept.
-	 - In this example, the initial value will be $\exp(4.5 + 0.5) = 148.4$ for $x = 1$.
+    - You should supply the values for all coefficients including intercept.
+	  - In this example, the initial value will be $\exp(4.5 + 0.5) = 148.4$ for $x = 1$.
 
-In the above case, we define only 1 regression coefficient in `hetres_pos` but the program adds the
-intercept. If you put 2 numbers in `hetres_pos` and also put 2 initial values in `hetres_pol`, the
-program doesn't add the intercept. In such a case, the model doesn't contain any intercept but does
-contain user-supplied covariates only.
+In the above case, we define only 1 regression coefficient in `hetres_pos` but the program adds the intercept. If you put 2 numbers in `hetres_pos` and also put 2 initial values in `hetres_pol`, the program does not add the intercept. In such a case, the model does not contain any intercept but does contain user-supplied covariates only.
 
-Note that these options do not work with `OPTION EM-REML`.
-The current version of AIREMLF90 will tell you this limitation when the program meets this condition.
+Note that these options do not work with `OPTION EM-REML`. The current version of AIREMLF90 will tell you this limitation when the program meets this condition.
 
 ### Results ###
 
@@ -152,29 +132,21 @@ Final Estimates
   0.64319E-01
 ~~~~~
 
-The output shows $\hat{b}_0 = 4.2552$ and $\hat{b}_1 = 0.058864$. This corresponds to
-$\hat{\sigma}_e^2 = \exp(4.26 + 0.0589 \times 0.5) = 72.9$ for $x = 0.5$, $\hat{\sigma}_e^2 = \exp(4.26 + 0.0589 \times 1.5) = 77.4$
-for $x = 1.5$ and $\sigma_e^2 = \exp(4.26 + 0.0589 \times 2.5) = 82.0$ for $x = 2.5$.
+The output shows $\hat{b}_0 = 4.2552$ and $\hat{b}_1 = 0.058864$. This corresponds to $\hat{\sigma}_e^2 = \exp(4.26 + 0.0589 \times 0.5) = 72.9$ for $x = 0.5$, $\hat{\sigma}_e^2 = \exp(4.26 + 0.0589 \times 1.5) = 77.4$ for $x = 1.5$ and $\sigma_e^2 = \exp(4.26 + 0.0589 \times 2.5) = 82.0$ for $x = 2.5$.
 
-One drawback of this analysis is that the calculations of the standard error for the residual variance
-are not easy. The AI matrix contains information for $\hat{b}_0$ and $\hat{b}_1$ (the last 2 rows/columns).
+One drawback of this analysis is that the calculations of the standard error for the residual variance are not easy. The AI matrix contains information for $\hat{b}_0$ and $\hat{b}_1$ (the last 2 rows/columns).
 
 
 ### Another modeling by class ###
 
-The heterogeneous residual variances are accounted for by class. We assume 3 levels in the class.
-The 14th column in the above data contains the level for each observation. AIREMLF90 doesn't
-directly accept the level number, and we should convert it to a different format.
+The heterogeneous residual variances are accounted for by class. We assume 3 levels in the class. The 14th column in the above data contains the level for each observation. AIREMLF90 does not directly accept the level number, and we should convert it to a different format.
 
-Having 3 levels is equivalent to defining 3 regression coefficients without intercept. We now
-assume the following parameterization without intercept.
+Having 3 levels is equivalent to defining 3 regression coefficients without intercept. We now assume the following parameterization without intercept.
 $$
 \sigma_e^2 = \exp(b_1 x_1 + b_2 x_2 + b_3 x_3 )
 $$
 
-If the observation has the residual variance level 1, we have $x_1 = 1$, $x_2 = 0$, and $x_3 = 0$. For the level 2,
-$x_1 = 0$, $x_2 = 1$, and $x_3 = 0$ and for the level 3, $x_1 = 0$, $x_2 = 0$, and $x_3 = 1$. We need 3 covariate with 1
-or 0. We add 3 extra columns to the rightmost of the data file.
+If the observation has the residual variance level 1, we have $x_1 = 1$, $x_2 = 0$, and $x_3 = 0$. For the level 2, $x_1 = 0$, $x_2 = 1$, and $x_3 = 0$ and for the level 3, $x_1 = 0$, $x_2 = 0$, and $x_3 = 1$. We need 3 covariate with 1 or 0. We add 3 extra columns to the rightmost of the data file.
 
 - tutorials:`simdata2a.txt`: extended data file
 
@@ -193,9 +165,7 @@ The first 10 rows are shown below.
  10       0       0 0.95   1   114   1   1    94.4   100.5   103.8    89.8  1.26  2   0 1 0
 ~~~~~
 
-The column 15, 16 and 17 contains 1 or 0. In column 15, it is 1 if the level is 1, otherwise 0.
-In column 16, it is 1 if the level is 2, otherwise 0. In column 17, it is 1 if the level is 3,
-otherwise 0. With this data file, the parameter file is as follows.
+The column 15, 16 and 17 contains 1 or 0. In column 15, it is 1 if the level is 1, otherwise 0. In column 16, it is 1 if the level is 2, otherwise 0. In column 17, it is 1 if the level is 3, otherwise 0. With this data file, the parameter file is as follows.
 
 ~~~~~{language=blupf90 caption="aireml2a.txt"}
 DATAFILE
@@ -253,15 +223,12 @@ Final Estimates
   0.57221E-01
 ~~~~~
 
-The estimate for the level 1 is $\hat{\sigma}_e^2 = \exp(4.28) = 72.2$, for the level 2, $\hat{\sigma}_e^2 = \exp(4.36) = 78.3$ and
-for the level 3, $\hat{\sigma}_e^2 = \exp(4.39) = 80.6$. These values are very similar to the previous results from
-a regression parameterization i.e. $\exp(b_0 + b_1 x)$ for $x = 0.5$, $1.5$, and $2.5$.
+The estimate for the level 1 is $\hat{\sigma}_e^2 = \exp(4.28) = 72.2$, for the level 2, $\hat{\sigma}_e^2 = \exp(4.36) = 78.3$ and for the level 3, $\hat{\sigma}_e^2 = \exp(4.39) = 80.6$. These values are very similar to the previous results from a regression parameterization that is $\exp(b_0 + b_1 x)$ for $x = 0.5$, $1.5$, and $2.5$.
 
 
 ### Remarks ###
 
-The methods explained here will not work well for multiple-trait models or complicated models
-with many variance components.
+The methods explained here will not work well for multiple-trait models or complicated models with many variance components.
 
 Likelihood Ratio Test
 ---------------------
@@ -271,27 +238,19 @@ REML methods allow statistical testing of variance components. For instance, ima
   - model 1 _not_ including the maternal permanent environmental effect
   - model 2 _including_ maternal permanent effects.
 
-The Likelihood Ratio Test (LRT) checks if the extra random effect, with associated variance
-component gives a better fit of the model, against not fitting it. The model _without_ the extra random effect
-is the _null_ ($H_0$) model versus the model _with_ the extra random effect, which is the alternative model ($H_1$).
-Then the difference between the two, which is a positive number, is an LRT statistic which follows a mixture of $\chi^2$ distributions.
-The theory of the LRT can be found in standard books and a nice description is in Sorensen & Gianola book.
+The Likelihood Ratio Test (LRT) checks if the extra random effect, with associated variance component gives a better fit of the model, against not fitting it. The model _without_ the extra random effect is the _null_ ($H_0$) model versus the model _with_ the extra random effect, which is the alternative model ($H_1$). Then the difference between the two, which is a positive number, is an LRT statistic which follows a mixture of $\chi^2$ distributions. The theory of the LRT can be found in standard books and a nice description is in Sorensen & Gianola book.
 
-Output of AIREMLF90 under $H_0$ is $x=-2logL$ ; output under $H_1$ is $y=-2logL$. These are positive numbers, so the smaller the better;
-always $y<x$ as $H_1$ is a more complex (so more likely) model. The trick resides in knowing if $x-y$ is "big enough".
-The LRT statistic is $LRT=x-y$, which is a statistic distributed as $\chi^2$. For one variance component, the p-value is (in R) :
+Output of AIREMLF90 under $H_0$ is $x=-2logL$ ; output under $H_1$ is $y=-2logL$. These are positive numbers, so the smaller the better; always $y<x$ as $H_1$ is a more complex (so more likely) model. The trick resides in knowing if $x-y$ is "big enough". The LRT statistic is $LRT=x-y$, which is a statistic distributed as $\chi^2$. For one variance component, the p-value is (in R) :
 
 ~~~{language=r}
 pchisq(x-y,1,lower.tail=FALSE)/2
 ~~~
 
-Classical applications of LRT in quantitative genetics include testing $h^2 > 0$ or testing of QTL effects.
-An application for association analysis for a multi-allelic gene is (<http://dx.doi.org/10.3168/jds.2013-6570>).
+Classical applications of LRT in quantitative genetics include testing $h^2 > 0$ or testing of QTL effects. An application for association analysis for a multi-allelic gene is (<http://dx.doi.org/10.3168/jds.2013-6570>).
 
 ### Example for test of heritability in dairy sheep
 
-I tested if genetic effects ($\mathbf{u}$) should be fit in an old data set from dairy sheep (80,000 records, 50,000 animals in pedigree) with a model including permanent
-($\sigma^2_p$), genetic ($\sigma^2_p$) and residual ($\sigma^2_e$) variances.
+I tested if genetic effects ($\mathbf{u}$) should be fit in an old data set from dairy sheep (80,000 records, 50,000 animals in pedigree) with a model including permanent ($\sigma^2_p$), genetic ($\sigma^2_p$) and residual ($\sigma^2_e$) variances.
 
 Under the complete model H1 ($\mathbf{y=Xb+Zu+Zp+e}$)  ) we have in the (last lines of) the output of AIREMLF90 :
 

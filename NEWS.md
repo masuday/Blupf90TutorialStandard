@@ -1,9 +1,12 @@
 News
 ====
 
-Updates from version 1.0.1
+Version 1.1.0: Updates from version 1.0.1
 -----------------------------------------
 
+- Intensively revised and proofread.
+- Added relevant descriptions and removed outdated information.
+- Updated explanations regarding the new programs, `blupf90+` and `gibbsf90+`.
 - Changed the single-quotation code. (`binsol_to_textsol.f90`)
 - Updated the support hub from Yahoo Groups to Groups.io. (`introduction_condition.md`)
 - Added a notation that the heterogeneous residual variances will not work with the `EM-REML` option in AIREMLF90. (`vc_advanced_aireml.md`)

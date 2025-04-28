@@ -1,7 +1,7 @@
 ---
 title: Download and Installation
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,107 +12,81 @@ Running a program in Linux and macOS
 Command line software
 ---------------------
 
-BLUPF90 programs are command line software.
-The program reads a parameter file describing the name of data and pedigree files, the models, and covariance components used in the analysis.
-It shows logs on screen and writes a file (or several files) for the results.
-This is designed to be used on the shell with keyboard operations.
+BLUPF90 programs are command-line software. Each program reads a parameter file describing the names of the data and pedigree files, the model, and the covariance components used in the analysis. It displays logs on the screen and writes one or more output files. These programs are designed to be used in a shell environment with keyboard input.
 
-Here we assume a standard bash environment.
-For macOS, all the operations will be done on Terminal.
-No GUI (graphical user interface) will be used.
+Here, we assume a standard bash environment. For macOS, all operations will be performed in Terminal. No graphical user interface (GUI) is used.
+
+**Note:** Currently, only Intel-based Macs are supported. The recent Macs with Apple M-series (ARM-based) CPUs are not supported.
 
 Installation
 ------------
 
-The software does not need a special installation method.
-Just download it from the official web site.
-Then change the permission e.g. `chmod 755` or `chmod u+x` (easier to remember: _ch_ ange the _mod_ e adding (_+_) permission of e _x_ ecution to the _u_ ser).
-You can move the program to your favorite directory which may be listed in the variable `PATH`.
-If you don't have such a directory, you can create the directory.
-Then you move the program there.
+No special installation procedure is required. Just download the program from the official website. Then, change the file permissions using `chmod`, for example, `chmod 755` or `chmod u+x` (a helpful way to remember: _ch_ange the _mod_e to add execution permission _+x_ for the _u_ser). You can move the program to your preferred directory, which may already be listed in your `PATH` environment variable. If not, you can create such a directory and move the program there.
 
-The following is an example of this process.
+Here is an example:
 
 ~~~~~{language=shell}
-# 1. download a program; you can use another way like using curl.
+# 1. Download the program. You can also use curl or another method.
 wget http://nce.ads.uga.edu/html/projects/programs/Mac_OSX/new/blupf90
 
-# 2. change the permission to executable
+# 2. Change the permission to make it executable.
 chmod 755 blupf90
 
-# 3. make a directory for binaries if you don't have it.
+# 3. Create a directory for binaries, if it doesn't exist.
 mkdir ~/bin
 
-# 4. move the program to the directory.
+# 4. Move the program to that directory.
 mv blupf90 ~/bin
 ~~~~~
 
-You can use other software (e.g., `curl`) instead of `wget` to download a file.
-If the above directory is not listed in the environmental variable `PATH`, add the directory to this variable.
-You can check it with a command.
+You can use other tools such as `curl` instead of `wget` to download the file. If the directory (e.g., `~/bin`) is not listed in your `PATH` environment variable, you need to add it. Check the current `PATH` using:
 
 ~~~~~{language=shell}
 echo $PATH
 ~~~~~
-If you find the directory, you don't have to do any extra task.
-If you don't find, you can change the variable.
-You can do this by typing the following command on your shell.
+
+If your directory is listed, you’re all set. If not, add it by typing:
 
 ~~~~~{language=shell}
 export PATH=~/bin:$PATH
 ~~~~~
 
-If you have installed the program in another directory than `~/bin`, please put the correct path there.
-This setting will disappear after log-out.
-To execute this command on log-in, set the variable in `/.bash_profile`.
-If you are unsure of this file, just open it with a text editor, then add the above command in the bottom of the file.
-Do not forget to log-out once then log-in again because the setting file will be effective only on your log-in.
-
+If the program is located in a different directory, replace `~/bin` with the correct path. This setting is temporary and will disappear when you log out. To make it permanent, add the command to your `.bash_profile`. If you're unsure how to do this, open `.bash_profile` with a text editor and add the line to the end. Log out and log back in for the change to take effect.
 
 Running a program
 -----------------
 
-Move to the directory with all the required files (e.g. pedigree, data).
-Just type the program name to invoke the software.
-If you successfully run a program, it asks you the name of parameter file with a short message.
+Navigate to the directory that contains all the required files (e.g., pedigree, data). Then, type the program name to start it. If the program launches successfully, you will see a message like:
 
 ~~~~~{language=shell}
 name of parameter file?
 ~~~~~
 
-Here you type the name of parameter file with the keyboard.
-Additional typing will be needed for Gibbs sampling programs.
-The messages will be shown on screen (standard output), so you can capture them to a file.
+At this prompt, type the name of the parameter file. Some programs, especially Gibbs sampling ones, will require additional inputs. The messages will appear on screen (standard output), and you can save them to a file using redirection:
 
 ~~~~~{language=shell}
-# All messages are saved to a file.
-# The program accepts key-in even nothing shown.
+# Save all messages to a file.
+# The program still accepts input even if nothing is shown.
 blupf90 > out.txt
 
-# As above.
-# Messages are shown and saved.
+# Save messages to a file while also displaying them on screen.
 blupf90 | tee out.txt
 ~~~~~
 
-Using a redirection, you can omit the key-in in the beginning of the program.
+You can also avoid manual input at the start of the program:
 
 ~~~~~{language=shell}
-# one line input
+# Provide the parameter file name via echo.
 echo parameter.txt | blupf90
 
-# different way using a file
+# Or use a file.
 echo parameter.txt > input
 blupf90 < input
 ~~~~~
 
-The second method is useful for Gibbs sampling programs, which require several inputs.
-
+The second method is especially useful for Gibbs sampling programs that require several lines of input.
 
 Stop a program
 --------------
 
-If you stop the program immediately, hit 2 keys simultaneously: Ctrl and C.
-For easier operation, you can keep pushing Ctrl and hit C.
-The program immediately stops with some messages, and you can safely ignore such messages.
-In some cases with multi-threaded computations, the program will be still running after receiving the STOP signal.
-You can close the terminal, and the program completely stops.
+To stop the program immediately, press `Ctrl + C`. For convenience, you can hold down `Ctrl` and tap `C`. The program will terminate immediately, and any resulting messages can be safely ignored. In some cases, especially during multi-threaded computations, the program may continue running after receiving the stop signal. If that happens, simply close the terminal window to stop the program completely.

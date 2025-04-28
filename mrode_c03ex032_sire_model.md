@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,22 +12,14 @@ Sire model
 Model
 -----
 
-Here we apply a sire model to the previous data.
-The mathematical model is the same as the previous section but the individual genetic effect is replaced with the sire genetic effect.
-In this model, we consider as if an observation belongs to the sire of the animal rather than to the animal itself. Additive
-genetic variation is explained by sires. So, the sire variance is $\sigma_s^2 = 0.25\sigma_u^2 = 5$ and
-the residual variance absorbs the remaining part of genetic variance and $\sigma_e^{2*}=0.75\sigma_u^2+\sigma_e^2=55$.
-The phenotypic variance is the same (60) between the animal and sire models.
+Here we apply a sire model to the previous data. The mathematical model is the same as the previous section but the individual genetic effect is replaced with the sire genetic effect. In this model, we consider as if an observation belongs to the sire of the animal rather than to the animal itself. Additive genetic variation is explained by sires. So, the sire variance is $\sigma_s^2 = 0.25\sigma_u^2 = 5$ and the residual variance absorbs the remaining part of genetic variance and $\sigma_e^{2*}=0.75\sigma_u^2+\sigma_e^2=55$. The phenotypic variance is the same (60) between the animal and sire models.
 
 Files
 -----
 
-We can use the same data set shown in the previous section (`data_mr03b.txt`).
-In this case, we use the 3rd column (sire ID) instead of the 1st column (animal ID) as an animal's
-effect.
+We can use the same data set shown in the previous section (`data_mr03b.txt`). In this case, we use the 3rd column (sire ID) instead of the 1st column (animal ID) as an animal's effect.
 
-The pedigree file in sire model for BLUPF90 is different from the one used in the animal model.
-This file (`pedigree_mr03b.txt`) contains 3 columns:
+The pedigree file in sire model for BLUPF90 is different from the one used in the animal model. This file (`pedigree_mr03b.txt`) contains 3 columns:
 
 1. The ID for sire.
 2. The ID for sire of the sire.
@@ -64,8 +56,7 @@ pedigree_mr03b.txt
 OPTION solv_method FSPAK
 ~~~~~
 
-The value `add_sire` is a keyword for the sire model in BLUPF90. The pedigree file does not have sire 2
-because it is missing, but the program doesn't care about it.
+The value `add_sire` is a keyword for the sire model in BLUPF90. The pedigree file does not have sire 2 because it is missing, but the program does not care about it.
 
 Solutions
 ---------
@@ -82,5 +73,4 @@ trait/effect level  solution
    1   2         4         -0.04304180
 ~~~~~
 
-The solution for sire ID 2 is 0.0. BLUPF90 always produces the solution 0.0 for such a missing level in
-data and pedigree files. Otherwise, the solutions are identical to the textbook (pp.48).
+The solution for sire ID 2 is 0.0. BLUPF90 always produces the solution 0.0 for such a missing level in data and pedigree files. Otherwise, the solutions are identical to the textbook (pp.48).

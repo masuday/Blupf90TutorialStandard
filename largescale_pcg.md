@@ -1,7 +1,7 @@
 ---
 title: Large-scale genetic evaluation
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,11 +12,7 @@ Iteration on data with preconditioned conjugate gradient (PCG)
 Algorithm
 ---------
 
-Preconditioned conjugate gradient (PCG) is an iterative method to solve the linear equations. This
-method is easily harmonized with the "iteration on data" technique. The intermediate status is kept in
-4 vectors, and the one iteration will be done by updating the vectors. BLUP90IOD2 is a program
-implementing this algorithm. Here we will introduce a basic idea needed to understand what the
-program performs. See Stranden and Lidauer (2000) and Tsuruta et al. (2001) for the detailed algorithm.
+Preconditioned conjugate gradient (PCG) is an iterative method to solve the linear equations. This method is easily harmonized with the "iteration on data" technique. The intermediate status is kept in 4 vectors, and the one iteration will be done by updating the vectors. BLUP90IOD2 is a program implementing this algorithm. Here we will introduce a basic idea needed to understand what the program performs. See Stranden and Lidauer (2000) and Tsuruta et al. (2001) for the detailed algorithm.
 
 The mixed model equations can be written as
 $$
@@ -42,23 +38,15 @@ $$
 where $||\cdot||$ means the norm.
 The default of $\varepsilon$ in BLUPF90IOD2 is $10^{-12}$.
 
-Note that some other software, e.g., MiX99, uses $\sqrt{\varepsilon}$.
-The users should be careful about the definition of convergence criterion when they have switched the software to BLUPF90IOD2.
+Note that some other software, for example, MiX99, uses $\sqrt{\varepsilon}$. The users should be careful about the definition of convergence criterion when they have switched the software to BLUPF90IOD2.
 
 
 Programs
 --------
 
-BLUP90IOD2 is the current program to perform the iteration on data with PCG. CBLUP90IOD
-can handle a threshold model or threshold-linear models with 1 threshold trait. BLUP90MBE is specialized in
-multibreed models with external information (see Legarra et al., 2007). In this example, we use the
-BLUP90IOD2 program.
+BLUP90IOD2 is the current program to perform the iteration on data with PCG. CBLUP90IOD can handle a threshold model or threshold-linear models with 1 threshold trait. BLUP90MBE is specialized in multibreed models with external information (see Legarra et al., 2007). In this example, we use the BLUP90IOD2 program.
 
-A parallel version of BLUPF90IOD2 is now available. BLUP90IOD2OMP1 is a program supporting
-parallel processing in reading data and pedigree files using OpenMP. This program is useful
-especially for very large data set with a complicated model (like the multiple-trait model). There is
-no advantage to use this program for small or moderate data set. The usage of this program is the
-same as BLUP90IOD2.
+A parallel version of BLUPF90IOD2 is now available. BLUP90IOD2OMP1 is a program supporting parallel processing in reading data and pedigree files using OpenMP. This program is useful especially for very large data set with a complicated model (like the multiple-trait model). There is no advantage to use this program for small or moderate data set. The usage of this program is the same as BLUP90IOD2.
 
 
 Files and analysis
@@ -123,17 +111,10 @@ Options
 OPTION conv_crit tol
 ~~~~~
 
-This option defines the convergence criterion ($\varepsilon$) to stop the iterations. A real value `tol` should
-be a small value. The default is `1.0E-12`. The criterion should be carefully decided because
-the default value could be too loose but the strict criterion requires too many rounds to converge.
-The best practice is to compare solutions from different convergence criterions and determine
-enough convergence criterion.
+This option defines the convergence criterion ($\varepsilon$) to stop the iterations. A real value `tol` should be a small value. The default is `1.0E-12`. The criterion should be carefully decided because the default value could be too loose but the strict criterion requires too many rounds to converge. The best practice is to compare solutions from different convergence criterions and determine enough convergence criterion.
 
 ~~~~~{language=blupf90}
 OPTION blksize n
 ~~~~~
 
-This option creates a block diagonal matrix for pre-conditioner ($\mathbf{M}$). The integer value n defines
-the block size. By default, the pre-conditioner is the diagonal matrix (i.e. `n` is 1). The block size
-should be the same as the number of traits. This option will reduce the number of iterations
-if the specified value is valid.
+This option creates a block diagonal matrix for pre-conditioner ($\mathbf{M}$). The integer value `n` defines the block size. By default, the pre-conditioner is the diagonal matrix (that is `n` is 1). The block size should be the same as the number of traits. This option will reduce the number of iterations if the specified value is valid.

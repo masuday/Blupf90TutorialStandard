@@ -1,7 +1,7 @@
 ---
 title: Practical genomic analysis
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,16 +12,12 @@ Quality control of SNP markers
 Basic quality control options
 -----------------------------
 
-The genomic module performs the quality control of SNP markers. This process removes unqualified
-markers and genotyped animals from the original data. The genomic module supports a
-variety of options for the quality control of markers. The following options change the behavior of
-the genomic module.
+The genomic module performs the quality control of SNP markers. This process removes unqualified markers and genotyped animals from the original data. The genomic module supports a variety of options for the quality control of markers. The following options change the behavior of the genomic module.
 
 
 ### Save cleaned genotypes ###
 
-The following option saves the cleaned marker information to files. By default, this option is off
-and the cleaned genotypes will not be saved.
+The following option saves the cleaned marker information to files. By default, this option is off and the cleaned genotypes will not be saved.
 
 ~~~~~{language=blupf90}
 OPTION saveCleanSNPs
@@ -37,24 +33,19 @@ This option generates 4 new files. We assume `snpfile` as a marker file.
 
 ### Turn off the quality control ###
 
-By default, the program performs quality control. The following option skips the quality control process completely.
-Some statistics related to quality control may still be calculated.
+By default, the program performs quality control. The following option skips the quality control process completely. Some statistics related to quality control may still be calculated.
 
 ~~~~~{language=blupf90}
 OPTION no_quality_control
 ~~~~~
 
-All the markers and genotyped animals will be retained even if they have obvious error or issues.
-This option is useful especially when all the markers have already been quality-controlled.
+All the markers and genotyped animals will be retained even if they have obvious error or issues. This option is useful especially when all the markers have already been quality-controlled.
 
 
 Detailed quality control options
 --------------------------------
 
-The following table shows useful options for this purpose. Some options have additional arguments
-but you can omit them. If you omit the arguments, the default values are used. Some details will not be checked.
-See the Default column in the following table. A detailed explanation for each option
-can be found in the official manual.
+The following table shows useful options for this purpose. Some options have additional arguments but you can omit them. If you omit the arguments, the default values are used. Some details will not be checked. See the Default column in the following table. A detailed explanation for each option can be found in the official manual.
 
 
 
@@ -96,8 +87,7 @@ Numerical example for quality control
 
 ### Files ###
 
-We will examine the quality control with a small example including unqualified markers and animals.
-The following files will be used in this section.
+We will examine the quality control with a small example including unqualified markers and animals. The following files will be used in this section.
 
 ~~~~~{language=text caption="snpqc1_XrefID.txt"}
 11 ID002
@@ -125,8 +115,7 @@ ID013 21220201012101211212221012001121221022120000100122111110011012111011221001
 ID015 21220201012101211212221012001121221022120000100122111110011012111011221001102200
 ~~~~~
 
-This marker file is the same as the previous chapter except that there are many missing genotypes in the animal
-`ID003`. This animal is expected to be removed during quality control.
+This marker file is the same as the previous chapter except that there are many missing genotypes in the animal `ID003`. This animal is expected to be removed during quality control.
 
 The data file is as follows.
 
@@ -163,10 +152,7 @@ Here is the pedigree file.
 15 16 18 3 0 0 0 0 1 ID003
 ~~~~~
 
-We will use the following parameter file for PREGSF90. The program will save the cleaned
-genotypes as well as call-rate information. We put a loose criterion for several options because of
-the small data. For example, we put a low call-rate criterion and relax the criterion for the correlation
-between $\mathbf{G}$ and $\mathbf{A}_{22}$. It is just a demonstration, so do not use such low values in the real data set.
+We will use the following parameter file for PREGSF90. The program will save the cleaned genotypes as well as call-rate information. We put a loose criterion for several options because of the small data. For example, we put a low call-rate criterion and relax the criterion for the correlation between $\mathbf{G}$ and $\mathbf{A}_{22}$. It is just a demonstration, so do not use such low values in the real data set.
 
 ~~~~~{language=blupf90 caption="paramqc1.txt"}
 # BLUPF90 parameter file created by RENF90
@@ -212,8 +198,7 @@ You will see the following results.
 - Allele frequency after quality control is saved in `freqdata.count.after.clean`. The frequency for a removed marker is shown as 0.0.
 - The call rate values in the files (`callrate` and `callrate_a`) are calculated based on the original marker data.
 
-You also find there is the file `GimA22i`. What values does it have? The following is the dump of
-this file.
+You also find there is the file `GimA22i`. What values does it have? The following is the dump of this file.
 
 ~~~~~{language=output}
 -0.335  0.000  -0.161 -0.421 -0.091  0.405  -0.329   0.265   0.265
@@ -227,20 +212,10 @@ this file.
  0.265  0.000  -0.144 -0.342  0.291  1.421  -0.587 -20.738  20.186
 ~~~~~
 
-You can see this file has $9 \times 9$ matrix and the second animal is not actually removed from
-$\mathbf{G}^{-1}-\mathbf{A}_{22}^{-1}$. This matrix was calculated based on the cleaned markers keeping rows and columns
-corresponding to removed animals. The program just filled 0 in such rows and columns. This is
-technically identical to use reconstructed relationship matrices calculated from the cleaned marker file.
+You can see this file has $9 \times 9$ matrix and the second animal is not actually removed from $\mathbf{G}^{-1}-\mathbf{A}_{22}^{-1}$. This matrix was calculated based on the cleaned markers keeping rows and columns corresponding to removed animals. The program just filled 0 in such rows and columns. This is technically identical to use reconstructed relationship matrices calculated from the cleaned marker file.
 
 
-When you invoke genomic module from the application programs (BLUPF90, AIREMLF90,
-GIBBSF90, etc.), the above `GimA22i` will be directly used in the analysis. When you use PREGSF90,
-be careful when you use this `GimA22i` file. This file still corresponds to the original marker and
-cross-reference file, not to the cleaned files. For instance, if there is one animal that has been
-excluded by quality control, this animal is still present in `GimA22i` file (filled with 0 for all related elements).
-This situation really confuses the user. There is also another
-issue. If you want to have the final matrix ($\mathbf{G}^{-1}-\mathbf{A}_{22}^{-1}$) from the cleaned genotypes, it is
-a waste of time to compute the matrix retaining unqualified objects.
+When you invoke genomic module from the application programs (BLUPF90, AIREMLF90, GIBBSF90, etc.), the above `GimA22i` will be directly used in the analysis. When you use PREGSF90, be careful when you use this `GimA22i` file. This file still corresponds to the original marker and cross-reference file, not to the cleaned files. For instance, if there is one animal that has been excluded by quality control, this animal is still present in `GimA22i` file (filled with 0 for all related elements). This situation really confuses the user. There is also another issue. If you want to have the final matrix ($\mathbf{G}^{-1}-\mathbf{A}_{22}^{-1}$) from the cleaned genotypes, it is a waste of time to compute the matrix retaining unqualified objects.
 
 
 ### Better practice for quality control ###
@@ -251,28 +226,22 @@ We suggest a user follow a protocol for quality control of markers.
 2. Run PREGSF90 again to calculate and save the relationship matrices using the cleaned marker files.
 3. Run an application program for your favorite analysis.
 
-To be short, our suggestion is to do the creation of cleaned files as a separate step. This means you
-need a different parameter file in each step (3 parameter files needed in total). In spite of more
-effort, the above procedure can avoid the confusion raised from the removal of markers and animals
-during quality control.
+To be short, our suggestion is to do the creation of cleaned files as a separate step. This means you need a different parameter file in each step (3 parameter files needed in total). In spite of more effort, the above procedure can avoid the confusion raised from the removal of markers and animals during quality control.
 
-There is another software, QCF90 (quality-control-F-90), which supports non-renumbered files.
-This tutorial does not cover the usage of QCF90.
-When QCF90 is used, the process will be
+There is another software, QCF90 (quality-control-F-90), which supports non-renumbered files. This tutorial does not cover the usage of QCF90. When QCF90 is used, the process will be
 
 1. Perform quality control and output the cleaned genotypes with QCF90.
 2. Run PREGSF90  to calculate and save the relationship matrices using the cleaned marker files.
 3. Run an application program for your favorite analysis.
 
-If you want to create the cleaned files only, in other words, if you want to skip all subsequent
-steps after the creation of the cleaned files, the following options are helpful.
+If you want to create the cleaned files only, in other words, if you want to skip all subsequent steps after the creation of the cleaned files, the following options are helpful.
 
 ~~~~~{language=blupf90}
-OPTION createA22 0           # doesn't create A22
-OPTION createA22Inverse 0    # doesn't compute A22-inverse
-OPTION createG 0             # doesn't create G
-OPTION createGInverse 0      # doesn't compute G-inverse
-OPTION createGimA22i 0       # doesn't compute (G-inv - A22-inv)
+OPTION createA22 0           # does not create A22
+OPTION createA22Inverse 0    # does not compute A22-inverse
+OPTION createG 0             # does not create G
+OPTION createGInverse 0      # does not compute G-inverse
+OPTION createGimA22i 0       # does not compute (G-inv - A22-inv)
 ~~~~~
 
 With these 5 options, the correlation between $\mathbf{G}$ and $\mathbf{A}_{22}$ will not be calculated. You can calculate

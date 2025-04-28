@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,39 +12,24 @@ Inversion of the dominance matrix
 Model
 -----
 
-A rapid algorithm to calculate $\mathbf{D}^{-1}$ (ignoring inbreeding) was developed by Hoeschele
-and VanRaden (1991). Their method was derived from the parental subclass effects $\mathbf{f}$ and its covariance
-matrix $\mathbf{F}$. The dominance effect is an interaction of genes, and the effect is inherited through the
-combination of parents and ancestors rather than through individuals. Therefore, the dominance
-variation can be described with the combination of ancestral animals. Here we just introduce the
-idea of parental subclasses. See the original paper or the textbook for the detailed algorithm for the
-inverse.
+A rapid algorithm to calculate $\mathbf{D}^{-1}$ (ignoring inbreeding) was developed by Hoeschele and VanRaden (1991). Their method was derived from the parental subclass effects $\mathbf{f}$ and its covariance matrix $\mathbf{F}$. The dominance effect is an interaction of genes, and the effect is inherited through the combination of parents and ancestors rather than through individuals. Therefore, the dominance variation can be described with the combination of ancestral animals. Here we just introduce the idea of parental subclasses. See the original paper or the textbook for the detailed algorithm for the inverse.
 
 
 For an animal $i$, its dominance effect $d_i$ can be expressed as
 $$
 d_i = f_{S,D} + \varepsilon
 $$
-where $f_{S,D}$ is the expected dominance effect of many hypothetical fill-sibs from the sire $S$ and the
-dam $D$, and $\varepsilon$ is the Mendelian sampling deviation. We assume $\mathrm{var}( f_{S,D} ) = \sigma_f^2$ and it is equivalent to
-the dominance covariance among the full-sibs. So we can find $\sigma_f^2=0.25\sigma_d^2$ and $\mathrm{var}(\varepsilon) = 0.75\sigma_d^2$.
-The parental dominance effect actually consists of several components:
+where $f_{S,D}$ is the expected dominance effect of many hypothetical fill-sibs from the sire $S$ and the dam $D$, and $\varepsilon$ is the Mendelian sampling deviation. We assume $\mathrm{var}( f_{S,D} ) = \sigma_f^2$ and it is equivalent to the dominance covariance among the full-sibs. So we can find $\sigma_f^2=0.25\sigma_d^2$ and $\mathrm{var}(\varepsilon)  = 0.75\sigma_d^2$. The parental dominance effect actually consists of several components:
 $$
 f_{S,D} = 0.50( f_{S, SD} + f_{S, DD} + f_{SS, D} + f_{DS, D}) - 0.25( f_{SS, SD} + f_{SS, DD} + f_{DS, SD} + f_{DS, DD}) + e
 $$
-where $SS$ and $SD$ refer to the sire and the dam of the sire, respectively, and $SD$ and $DD$ refer to the
-sire and the dam of the dam, respectively. We have to put a label on each combination of animals
-(subclass). A dominance pedigree file contains the labels on the above 8 subclass for each $f_{S,D}$. The
-vector $\mathbf{f}$ contains the parental dominance effects and its variance is
+where $SS$ and $SD$ refer to the sire and the dam of the sire, respectively, and $SD$ and $DD$ refer to the sire and the dam of the dam, respectively. We have to put a label on each combination of animals (subclass). A dominance pedigree file contains the labels on the above 8 subclass for each $f_{S,D}$. The vector $\mathbf{f}$ contains the parental dominance effects and its variance is
 $$
 \mathrm{var}(\mathbf{f}) = \mathbf{F}\sigma_f^2
 $$
-and its inverse is rapidly calculated using the dominance pedigree file. The final inverse $\mathbf{D}^{-1}$ is also
-calculated with $\mathbf{F}^{-1}$.
+and its inverse is rapidly calculated using the dominance pedigree file. The final inverse $\mathbf{D}^{-1}$ is also calculated with $\mathbf{F}^{-1}$.
 
-BLUPF90 calculates $\mathbf{F}^{-1}$ only. This matrix itself can't be used to estimate individual dominance
-effect. However, $\mathbf{F}^{-1}$ is still useful to estimate the variance components. In this section, we will
-prepare the files as usual even we will not solve the mixed model equations.
+BLUPF90 calculates $\mathbf{F}^{-1}$ only. This matrix itself cannot be used to estimate individual dominance effect. However, $\mathbf{F}^{-1}$ is still useful to estimate the variance components. In this section, we will prepare the files as usual even we will not solve the mixed model equations.
 
 
 Files
@@ -67,8 +52,8 @@ selected elements of the table.
 The subclass is referred with the label ($\phi$). For example, $f_{6,8}$ is the subclass 1, $f_{6,5}$ is the subclass
 2 and so on. The known parent subclasses are the components of the parental dominance. For
 example, in the subclass 1 with $S = 6$ and $D = 8$, $f_{6,8}$ consists of the subclasses 2, 3 and 6. In this
-case, the subclass 2 is $f_{6,5}$ i.e. $fS$, $DD$ for $f_{6,8}$. Similarly, the subclass 3 is $f_{3,8}$ i.e. $f_{SS,D}$ for $f_{6,8}$ and
-the subclass 6 is $f_{3,5}$ i.e. $f_{SS,DD}$ for $f_{6,8}$. Based on the above equation, the subclass 1 can be
+case, the subclass 2 is $f_{6,5}$ that is $fS$, $DD$ for $f_{6,8}$. Similarly, the subclass 3 is $f_{3,8}$ that is $f_{SS,D}$ for $f_{6,8}$ and
+the subclass 6 is $f_{3,5}$ that is $f_{SS,DD}$ for $f_{6,8}$. Based on the above equation, the subclass 1 can be
 described as
 $$
 f_{6,8} = 0.50( f_{S,DD} + f_{SS,D} ) - 0.25 f_{SS,DD}
@@ -89,10 +74,7 @@ The dominance pedigree file for BLUPF90 contains 10 columns.
 9. Subclass $DS, DD$ (code:128)
 10. Sum of the code for nonempty subclasses.
 
-If the subclass is unknown or empty, put 0. The last column contains an integer value from the
-summation of all the code number for nonempty subclasses. The final code should be ranging from
-0 to 255. For example, in $\phi = 1$ i.e., $f_{6,8}$, the final code is $2 + 4 + 32 = 38$. If the final code is 0,
-you can omit such a line.
+If the subclass is unknown or empty, put 0. The last column contains an integer value from the summation of all the code number for nonempty subclasses. The final code should be ranging from 0 to 255. For example, in $\phi = 1$ that is, $f_{6,8}$, the final code is $2 + 4 + 32 = 38$. If the final code is 0, you can omit such a line.
 
 The dominance pedigree file for this example is shown below.
 
@@ -149,18 +131,8 @@ dominance_mr12b.txt
 OPTION solv_method FSPAK
 ~~~~~
 
-With the keyword `par_domin`, BLUPF90 creates $\mathbf{F}^{-1}$ from the dominance pedigree file. Note that the
-parental subclass variance is one quarter of the dominance variance ($\sigma_f^2=\sigma_d^2/4 = 80/4 = 20$). The
-remaining variance goes into the residual variance ($120 + 60 = 180$).
+With the keyword `par_domin`, BLUPF90 creates $\mathbf{F}^{-1}$ from the dominance pedigree file. Note that the parental subclass variance is one quarter of the dominance variance ($\sigma_f^2=\sigma_d^2/4 = 80/4 = 20$). The remaining variance goes into the residual variance ($120 + 60 = 180$).
 
-You can run BLUPF90 with this parameter file. The solutions are similar in BLUE and BLUP for
-the additive effects compared with the previous results. The predictions for parental dominance
-are not equivalent to the previous results. In this analysis, we just consider the quarter of dominance
-variance through $\mathbf{F}^{-1}$. For the precise prediction of the dominance effects, a user should use the
-software that fully supports the dominance effect. As we mentioned before, however, the parameter
-file is still useful for variance component estimation with a dominance model.
+You can run BLUPF90 with this parameter file. The solutions are similar in BLUE and BLUP for the additive effects compared with the previous results. The predictions for parental dominance are not equivalent to the previous results. In this analysis, we just consider the quarter of dominance variance through $\mathbf{F}^{-1}$. For the precise prediction of the dominance effects, a user should use the software that fully supports the dominance effect. As we mentioned before, however, the parameter file is still useful for variance component estimation with a dominance model.
 
-What is the most efficient way to create a dominance pedigree file? A renumbering program
-RENDOMN supports generating the file. This program is based on the old design and different
-usage compared to RENUMF90. A solver supporting a dominance model is JAADOMN which is
-also old software. You can find the programs at <http://nce.ads.uga.edu/~ignacy/numpub/dominance/>.
+What is the most efficient way to create a dominance pedigree file? A renumbering program RENDOMN supports generating the file. This program is based on the old design and different usage compared to RENUMF90. A solver supporting a dominance model is JAADOMN which is also old software. You can find the programs at <http://nce.ads.uga.edu/~ignacy/numpub/dominance/>.

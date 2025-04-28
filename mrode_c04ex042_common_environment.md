@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -13,14 +13,12 @@ Model
 -----
 
 In this example, the author considers a simple maternal model and the maternal effects ($c$) do not correlate to
-each other.
-The variance components include the animal genetic variance $\sigma_u^2=20$, the maternal variance $\sigma_c^2=15$, and the residual variance $\sigma_e^2=65$.
+each other. The variance components include the animal genetic variance $\sigma_u^2=20$, the maternal variance $\sigma_c^2=15$, and the residual variance $\sigma_e^2=65$.
 
 Files
 -----
 
-The data file (`data_mr04b.txt`) contains the whole table shown in the textbook (p.68).
-Here is the explanation for each column.
+The data file (`data_mr04b.txt`) contains the whole table shown in the textbook (p.68). Here is the explanation for each column.
 
 1. Animal ID (piglet)
 2. Sire ID

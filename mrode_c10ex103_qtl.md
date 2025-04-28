@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,10 +12,7 @@ Directly predicting the additive genetic merit with QTL
 Model
 -----
 
-There is an approach to directly predict an animal’s marker genetic merit. The QTL relationship
-matrix ($\mathbf{G}_v$) can be reduced to a relationship matrix among animals ($\mathbf{A}_v$). The mathematical model
-contains fixed effects, additive polygenic effects and additive genetic effects related to the marker.
-The system of mixed model equations is
+There is an approach to directly predict an animal’s marker genetic merit. The QTL relationship matrix ($\mathbf{G}_v$) can be reduced to a relationship matrix among animals ($\mathbf{A}_v$). The mathematical model contains fixed effects, additive polygenic effects and additive genetic effects related to the marker. The system of mixed model equations is
 $$
 \left[
 \begin{array}{lll}
@@ -46,8 +43,7 @@ The author assumes $\sigma_u^2 = 0.30$, $\sigma_q^2 = 0.10$, and $\sigma_e^2 = 0
 Files
 -----
 
-We use the same data set as the previous example except for removing the paternal and maternal QTL effects (`data_mr10b.txt`).
-An explanation for each column is given as follows.
+We use the same data set as the previous example except for removing the paternal and maternal QTL effects (`data_mr10b.txt`). An explanation for each column is given as follows.
 
 1. Animal ID (calf)
 2. Sex (1=male and 2=female)
@@ -55,11 +51,9 @@ An explanation for each column is given as follows.
 4. Dam ID
 5. Post weaning weight (kg)
 
-The pedigree file is also the same as before (`pedigree_mr10b.txt`).
-It has the 4th column with the inb/upg code.
+The pedigree file is also the same as before (`pedigree_mr10b.txt`). It has the 4th column with the inb/upg code.
 
-In this case, we should prepare $\mathbf{A}_{v}^{-1}$ as an user-supplied file. The following file contains its
-diagonal and upper-triangular elements.
+In this case, we should prepare $\mathbf{A}_{v}^{-1}$ as an user-supplied file. The following file contains its diagonal and upper-triangular elements.
 
 ~~~~~{language=text caption="userinverse_mr10b.txt"}
   1 1  4.966

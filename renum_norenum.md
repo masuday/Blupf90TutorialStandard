@@ -1,13 +1,13 @@
 ---
 title: Data preparation with RENUMF90
 author: Andres Legarra
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
 
 
-What if I don't want to use RENUMF90?
+What if I do not want to use RENUMF90?
 =====================================
 
 It happens that the user does not want to use RENUMF90. Common reasons for this are:
@@ -16,8 +16,7 @@ It happens that the user does not want to use RENUMF90. Common reasons for this 
   - I do my own renumbering and I want to use it
   - I have a complex model and I want better control on the recorded numbers
 
-In the next section, we will give instructions on how the files should be coded. We will *not*
-give software but you may take a look [here](https://github.com/alegarra/yarp).
+In the next section, we will give instructions on how the files should be coded. We will *not* give software but you may take a look [here](https://github.com/alegarra/yarp).
 
 Main requirements of recoding for BLUPF90 programs
 ---------------------------------------------

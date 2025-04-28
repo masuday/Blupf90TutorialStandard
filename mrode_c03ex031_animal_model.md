@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -71,20 +71,14 @@ in a regular way with BLUPF90 (the first equation). Then we will demonstrate tha
 create the second type of equations.
 -->
 
-Mrode (2014) considered the pre-weaning gain (WWG) as a target trait, and he applied a linear mixed model to the trait
-with a fixed effect (sex), a random effect (animal), and the residual effect.
-Assume that the genetic variance was $\sigma_u^2$ = 20 and the residual variance was $\sigma_e^2= 40$.
-This is a typical animal model which have been already introduced in the previous chapter.
+Mrode (2014) considered the pre-weaning gain (WWG) as a target trait, and he applied a linear mixed model to the trait with a fixed effect (sex), a random effect (animal), and the residual effect. Assume that the genetic variance was $\sigma_u^2$ = 20 and the residual variance was $\sigma_e^2= 40$. This is a typical animal model which have been already introduced in the previous chapter.
 
-There are two possible systems of equations: 1) each variance component is explicitly involved in the equations, or
-2) $\alpha$, the variance ratio, is used.
-Two systems of equations should result in the same solutions.
+There are two possible systems of equations: 1) each variance component is explicitly involved in the equations, or 2) $\alpha$, the variance ratio, is used. Two systems of equations should result in the same solutions.
 
 Files
 -----
 
-We now prepare the data file (`data_mr03a.txt`).
-It includes 5 observations just from 5 animals.
+We now prepare the data file (`data_mr03a.txt`). It includes 5 observations just from 5 animals.
 
 <!---
 ~~~~~{language=text caption="data_mr03a.txt"}
@@ -100,8 +94,7 @@ It includes 5 observations just from 5 animals.
 ~~~~~
 --->
 
-The data file has 5 columns as follows.
-This is the exact copy of the original table in the textbook.
+The data file has 5 columns as follows. This is the exact copy of the original table in the textbook.
 
 1. Animal ID (calves)
 2. Sex (1 for male and 2 for female)
@@ -111,8 +104,7 @@ This is the exact copy of the original table in the textbook.
 
 Column 3 and 4 are not actually used in this analysis.
 
-A pedigree file is also prepared.
-The 1st column is animal ID, the 2nd column for sire ID and the 3rd column for dam ID.
+A pedigree file is also prepared. The 1st column is animal ID, the 2nd column for sire ID and the 3rd column for dam ID.
 
 <!--
 ~~~~~{language=text caption="pedigree_mr03a.txt"}
@@ -134,10 +126,7 @@ The 1st column is animal ID, the 2nd column for sire ID and the 3rd column for d
 ~~~~~
 -->
 
-The parameter file is following. To obtain the exact solutions, we have
-`OPTION solve_method FSPAK`. With this option, we can calculate the reliability of a solution using the diagonal elements i.e., 
-prediction error variance (PEV)) of the inverse of the left-hand side of mixed model equations.
-Additional option `OPTION sol se` is needed to calculate PEV.
+The parameter file is as follows. To obtain the exact solutions, we have `OPTION solve_method FSPAK`. With this option, we can calculate the reliability of a solution using the diagonal elements that is, prediction error variance (PEV)) of the inverse of the left-hand side of mixed model equations. Additional option `OPTION sol se` is needed to calculate PEV.
 
 ~~~~~{language=blupf90 caption="param_mr03a.txt"}
 DATAFILE
@@ -186,21 +175,12 @@ trait/effect level  solution          s.e.
    1   2         8          0.18261469          4.11029997
 ~~~~~
 
-The solutions are identical to solutions shown in the textbook (pp.39). The above `s.e.` is the
-square root of diagonal elements of the inverse of the left-hand side. Note that the above `s.e.` is
-actually SEP (standard error of prediction) in the textbook (pp.45) not PEV. This happened because
-BLUPF90 created general mixed model equations explicitly containing $\sigma_e^2$ and $\sigma_u^2$ rather than the
-variance ratio $\alpha=\sigma_e^2/\sigma_u^2$. So we don't need to multiply extra $\sigma_e^2$ by the inverse element to obtain
-PEV. Below, we will demonstrate the same left-hand side shown in the textbook and confirm its
-inverse equals to results in the textbook.
+The solutions are identical to solutions shown in the textbook (pp.39). The above `s.e.` is the square root of diagonal elements of the inverse of the left-hand side. Note that the above `s.e.` is actually SEP (standard error of prediction) in the textbook (pp.45) not PEV. This happened because BLUPF90 created general mixed model equations explicitly containing $\sigma_e^2$ and $\sigma_u^2$ rather than the variance ratio $\alpha=\sigma_e^2/\sigma_u^2$. So we do not need to multiply extra $\sigma_e^2$ by the inverse element to obtain PEV. Below, we will demonstrate the same left-hand side shown in the textbook and confirm its inverse equals to results in the textbook.
 
 Alternative parameter file
 --------------------------
 
-The textbook uses a simplified form of mixed model equations in the single-trait analysis. BLUPF90
-can handle this form with a tricky (not recommended) way. In this form, only the variance ratio matters. The ratio is
-$\alpha=\sigma_e^2/\sigma_u^2=2.0$ and it is equivalent to assuming $\sigma_e^2=1.0$ and $\sigma_u^2=0.5$.
-The parameter file has these "equivalent" variance components.
+The textbook uses a simplified form of mixed model equations in the single-trait analysis. BLUPF90 can handle this form with a tricky (not recommended) way. In this form, only the variance ratio matters. The ratio is $\alpha=\sigma_e^2/\sigma_u^2=2.0$ and it is equivalent to assuming $\sigma_e^2=1.0$ and $\sigma_u^2=0.5$. The parameter file has these "equivalent" variance components.
 
 ~~~~~{language=blupf90 caption="param_mr03a1.txt"}
 DATAFILE
@@ -246,13 +226,6 @@ trait/effect level  solution          s.e.
    1   2         8          0.18261469          0.64989549
 ~~~~~
 
-This parameter file will provide the same solutions as before. An advantage of this method
-is to possibly reduce the numerical error because of $\sigma_e^2=1$, which doesn't add the noise to the equations.
-We square the `s.e.` to obtain a diagonal element of the inverse of the left-hand side matrix. You can calculate the
-reliability or accuracy of the estimated breeding value by hand.
+This parameter file will provide the same solutions as before. An advantage of this method is to possibly reduce the numerical error because of $\sigma_e^2=1$, which does not add the noise to the equations. We square the `s.e.` to obtain a diagonal element of the inverse of the left-hand side matrix. You can calculate the reliability or accuracy of the estimated breeding value by hand.
 
-For example, the diagonal element for animal 1 is $d_1 = 0.68636303^2 \approx 0.471$ which is the same as
-the reference value in the textbook (pp.45). The $\mathrm{PEV}$ for animal 1 is $\mathrm{PEV}_1 = d_i\sigma_e^2= 0.471 \times 40 =
-18.84$. The standard error of prediction is $\mathrm{SEP}_1 = \sqrt{\mathrm{PEV}_1} = \sqrt{18.84} = 4.341$ which is also the
-same as the textbook. The reliability for animal 1 is $r^2 = 1 - \mathrm{SEP}^2 /\sigma_u^2 = 1 - \mathrm{PEV}/\sigma_u^2 = 1 -
-18.84/20 = 0.058$. You can confirm that this rule is true for the other animals.
+For example, the diagonal element for animal 1 is $d_1 = 0.68636303^2 \approx 0.471$ which is the same as the reference value in the textbook (pp.45). The $\mathrm{PEV}$ for animal 1 is $\mathrm{PEV}_1 = d_i\sigma_e^2= 0.471 \times 40 = 18.84$. The standard error of prediction is $\mathrm{SEP}_1 = \sqrt{\mathrm{PEV}_1} = \sqrt{18.84} = 4.341$ which is also the same as the textbook. The reliability for animal 1 is $r^2 = 1 - \mathrm{SEP}^2 /\sigma_u^2 = 1 - \mathrm{PEV}/\sigma_u^2 = 1 - 18.84/20 = 0.058$. You can confirm that this rule is true for the other animals.

@@ -1,7 +1,7 @@
 ---
 title: Download and Installation
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -9,15 +9,10 @@ tags: [introduction,tutorial]
 Availability
 ============
 
-The BLUPF90 family programs are available at the official web site of the Animal Breeding and Genetics Group at the University of Georgia.
-This web site provides the latest version of the programs. See the following link.
+The BLUPF90 family of programs is available on the official website of the Animal Breeding and Genetics Group at the University of Georgia. This website provides the latest versions of the programs. See the following link:
 
-- Animal Breeding and Genetics Group -- University of Georgia (<http://nce.ads.uga.edu/>)
+- Animal Breeding and Genetics Group — University of Georgia (<http://nce.ads.uga.edu/>)
 
-You can download the programs and use them for personal or academic purposes.
-Some programs are not available online.
-These programs are provided under a contract with our team.
-See the official webs site for details.
+You can download the programs and use them for personal or academic purposes. Some programs are not available online. These programs are provided under a contract with our team. See the official website for details.
 
-Now the official manual for a series of the programs is available at the official web site.
-The manual provides detailed options to control the programs as well as demonstrations on analyses with various linear models.
+The official manual for the program suite is now available on the website. The manual provides detailed descriptions of the available options as well as demonstrations of analyses using various linear models.

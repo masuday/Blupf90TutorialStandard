@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,17 +12,11 @@ Multiple-trait model with equal design matrix and no missing observations
 Model
 -----
 
-Here we consider a multiple-trait model with equal design matrices, which means the same model
-is applied to all traits. We will consider a situation without missing observations.
+Here we consider a multiple-trait model with equal design matrices, which means the same model is applied to all traits. We will consider a situation without missing observations.
 
-In this example, the author considers the 2-trait model for the pre-weaning gain as the first trait
-(WWG) and the post-weaning gain as the second trait (PWG). Both traits have the same model
-i.e., the fixed effect for sex, and two random effects, the additive genetic effect, and the residual effect.
+In this example, the author considers the 2-trait model for the pre-weaning gain as the first trait (WWG) and the post-weaning gain as the second trait (PWG). Both traits have the same model that is, the fixed effect for sex, and two random effects, the additive genetic effect, and the residual effect.
 
-We also consider the genetic covariance between 2 traits as well as the genetic variance for each
-trait. This is true for residual covariance components. The genetic covariance matrix ($\mathbf{G}_0$) and the
-residual covariance matrix $\mathbf{R}_0$ are both symmetric matrices ($2 \times 2$). The values are defined in the
-textbook as
+We also consider the genetic covariance between two traits as well as the genetic variance for each trait. This is true for residual covariance components. The genetic covariance matrix ($\mathbf{G}_0$) and the residual covariance matrix $\mathbf{R}_0$ are both symmetric matrices ($2 \times 2$). The values are defined in the textbook as
 $$
 \mathbf{G}_{0}
 =
@@ -45,14 +39,11 @@ $$
 \right]
 $$
 
-A matrix notation of the above model and its mixed model equations have already introduced in the
-previous chapter. So here we just show some relevant equations. The model can be written as
+A matrix notation of the above model and its mixed model equations have already introduced in the previous chapter. So here we just show some relevant equations. The model can be written as
 $$
 \mathbf{y} = \mathbf{Xb} + \mathbf{Zu} + \mathbf{e}.
 $$
-We have 2 options to order the observations in $\mathbf{y}$ (within-trait or within-animal). According to
-a discussion in the previous chapter, BLUPF90 orders the observations within-animal (see the
-previous chapter for details). The variance of $\mathbf{y}$ is
+We have 2 options to order the observations in $\mathbf{y}$ (within-trait or within-animal). According to a discussion in the previous chapter, BLUPF90 orders the observations within-animal (see the previous chapter for details). The variance of $\mathbf{y}$ is
 $$
 \mathrm{var}(\mathbf{y}) = \mathbf{Z}\left(\mathbf{A} \otimes \mathbf{G}_{0}\right)\mathbf{Z}' + \mathbf{I} \otimes \mathbf{R}_{0}
 $$
@@ -83,8 +74,7 @@ $$
 Files
 -----
 
-The data file (`data_mr05a.txt`) is actually an extension of Example 3.1.
-It has an extra observation in the last column.
+The data file (`data_mr05a.txt`) is actually an extension of Example 3.1. It has an extra observation in the last column.
 
 1. Animal ID (calves)
 2. Sire ID
@@ -94,9 +84,7 @@ It has an extra observation in the last column.
 
 The pedigree file (`pedigree_mr05a.txt`) is also the same as the previous one.
 
-The parameter file contains 2 covariance matrices. We will compute the standard error of each
-estimate as to the square root of the corresponding diagonal element of the inverse of the left-hand side
-of mixed model equations.
+The parameter file contains 2 covariance matrices. We will compute the standard error of each estimate as to the square root of the corresponding diagonal element of the inverse of the left-hand side of mixed model equations.
 
 ~~~~~{language=blupf90 caption="param_mr05a.txt"}
 DATAFILE
@@ -131,18 +119,13 @@ OPTION sol se
 Solutions
 ---------
 
-The file `solution` has the solutions for the first and second traits. The solutions are
-identical to the values shown in the textbook (p.74).
+The file `solution` has the solutions for the first and second traits. The solutions are identical to the values shown in the textbook (p.74).
 
-The reliability of the estimated breeding value of an animal can be calculated with the solutions from BLUPF90.
-The reliability for trait $j$ of animal $i$ ($r_{ij}^2$) is
+The reliability of the estimated breeding value of an animal can be calculated with the solutions from BLUPF90. The reliability for trait $j$ of animal $i$ ($r_{ij}^2$) is
 $$
 r_{ij}^2=1-\frac{\mathrm{PEV}_{ij}}{\sigma_{u_j}^{2}}
 $$
-where $\mathrm{PEV}_{ij}$ is the diagonal element of the inverse of the left-hand side of mixed model equations
-corresponding to the effect to be considered. In the above solutions, the column `s.e.` contains the
-square root of the inverse ($\sqrt{\mathrm{PEV}_{ij}}$). For example, the
-reliabilities of animal 1 can be calculated as:
+where $\mathrm{PEV}_{ij}$ is the diagonal element of the inverse of the left-hand side of mixed model equations corresponding to the effect to be considered. In the above solutions, the column `s.e.` contains the square root of the inverse ($\sqrt{\mathrm{PEV}_{ij}}$). For example, the reliabilities of animal 1 can be calculated as:
 $$
 r_{11}^2=1-\frac{4.313320612^2}{20}\approx 0.070
 \quad

@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -17,8 +17,7 @@ See the textbook for the details.
 Files and solutions for SNP-BLUP
 --------------------------------
 
-First, we perform the SNP-BLUP analysis.
-The data file (`data_mr11d1.txt`) is from the previous example.
+First, we perform the SNP-BLUP analysis. The data file (`data_mr11d1.txt`) is from the previous example.
 
 We can use the same pedigree defined before (`pedigree_mr11d1.txt`).
 
@@ -78,15 +77,12 @@ FILE
 OPTION solv_method FSPAK
 ~~~~~
 
-You can check the solutions.
-See the reference values in the textbook
-(p.190).
+You can check the solutions. See the reference values in the textbook (p.190).
 
 Files and solutions for GBLUP
 -----------------------------
 
-In this example with GBLUP, we use a text file for $\mathbf{G}_{w}^{-1}$ created with PREGSF90 in the previous section (the
-first approach). See the instruction and prepare the file.
+In this example with GBLUP, we use a text file for $\mathbf{G}_{w}^{-1}$ created with PREGSF90 in the previous section (the first approach). See the instruction and prepare the file.
 
 The data file (`data_mr11d2.txt`) is also common to the previous one.
 

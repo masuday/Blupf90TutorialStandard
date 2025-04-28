@@ -1,7 +1,7 @@
 ---
 title: Numerical examples from Mrode (2014)
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -12,25 +12,17 @@ Fixed effect model for SNP effects
 Model
 -----
 
-In this section, the author tries to estimate individual SNP effect as a fixed effect based on 8 reference
-animals that have both genotype and phenotype (fat DYD). Only 3 SNP markers are considered in this
-small example. We also consider the regular additive genetic (polygenic) effects. The model is
+In this section, the author tries to estimate individual SNP effect as a fixed effect based on 8 reference animals that have both genotype and phenotype (fat DYD). Only 3 SNP markers are considered in this small example. We also consider the regular additive genetic (polygenic) effects. The model is
 $$
 y_{i} = \mu + \sum_{k=1}^{3}z_{ik} g_{k} + u_{i} + e_{i}
 $$
-where $y_i$ is an observation for animal $i$, $\mu$ is the general mean, $z_{ik}$ is $k$-th weighted marker genotype
-for the animal i.e. the $(i,k)$ element in the $\mathbf{Z}$ matrix (see VanRaden, 2008), $g_k$ is the $k$-th fixed SNP
-effect, $u_i$ is the additive genetic (polygenic) effect, and $e_i$ is the residual effect. We can consider
-more animals in pedigree.
-The variance components are $\sigma_u^2= 35.241$ and $\sigma_e^2 = 245.0$.
+where $y_i$ is an observation for animal $i$, $\mu$ is the general mean, $z_{ik}$ is $k$-th weighted marker genotype for the animal that is the $(i,k)$ element in the $\mathbf{Z}$ matrix (see VanRaden, 2008), $g_k$ is the $k$-th fixed SNP effect, $u_i$ is the additive genetic (polygenic) effect, and $e_i$ is the residual effect. We can consider more animals in pedigree. The variance components are $\sigma_u^2= 35.241$ and $\sigma_e^2 = 245.0$.
 
 
 Files
 -----
 
-In this model, the elements of $\mathbf{Z}$ are used as covariates so they should be saved in the data file.
-The data file contains the first 3 columns of $\mathbf{Z}$; see p.181 in the textbook. Also, the weight used in this
-analysis is actually the inverse of EDC so the values should be calculated and stored in the data file.
+In this model, the elements of $\mathbf{Z}$ are used as covariates so they should be saved in the data file. The data file contains the first 3 columns of $\mathbf{Z}$; see p.181 in the textbook. Also, the weight used in this analysis is actually the inverse of EDC so the values should be calculated and stored in the data file.
 
 ~~~~~{language=text caption="data_mr11a.txt"}
  13  0  0  1 558  9.0  0.00179211   1.357 -0.357  0.286
@@ -90,5 +82,4 @@ If you conduct the unweighted analysis, remove 7 from the WEIGHT(S) section.
 Solutions
 ---------
 
-In the weighted analysis, the solutions are the same as the textbook
-(p.181). The estimate of the general mean is different but I believe this is a typo in the textbook.
+In the weighted analysis, the solutions are the same as the textbook (p.181). The estimate of the general mean is different but I believe this is a typo in the textbook.

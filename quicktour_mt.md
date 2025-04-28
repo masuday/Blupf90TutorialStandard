@@ -1,7 +1,7 @@
 ---
 title: Quick tour of BLUPF90
 author: Yutaka Masuda
-date: September 2019
+date: April 2025
 subject: "Introduction to BLUPF90 suite programs"
 tags: [introduction,tutorial]
 ...
@@ -9,18 +9,14 @@ tags: [introduction,tutorial]
 Trivial analyses for multiple-trait models
 ==========================================
 
-BLUPF90 supports multiple-trait models with few modifications to a parameter file for the single-trait model.
-In this section, we consider a simple multiple-trait model and introduce some extensions in a parameter file.
+BLUPF90 supports multiple-trait models with only a few modifications to a parameter file for the single-trait model. In this section, we consider a simple multiple-trait model and introduce some extensions in a parameter file.
 
 Basic elements
 --------------
 
 ### Model description ###
 
-We extend the single-trait animal-model shown in the previous section, but no genomics.
-We will consider a 2-trait model with the same effects on both traits.
-Also, we assume we have no missing observations.
-A mathematical model for each trait can be written as follows.
+We extend the single-trait animal-model shown in the previous section, but without genomics. We will consider a two-trait model with the same effects on both traits. Also, we assume that there are no missing observations. A mathematical model for each trait can be written as follows.
 
 $$
 \begin{aligned}
@@ -41,16 +37,13 @@ Ordering animals within trait:
 Ordering traits within animal:
   $\mathbf{y} = \left[\begin{array}{l|l|l|l|l}y_{1:1}, y_{1:2} & y_{2:1}, y_{2:2} & y_{3:1}, y_{3:2} & \cdots & y_{n:1}, y_{n:2}\end{array}\right]$
 
-This difference is not essential on conducting the analysis but you should recognize the difference when writing down the mathematical model in matrix notation.
-Above two results in the different representation of mixed model equations even if the solutions are identical.
-Because BLUPF90 programs use the latter, we will describe the model with this rule.
+This difference is not essential on conducting the analysis but you should recognize the difference when writing down the mathematical model in matrix notation. These two result in different representations of mixed model equations even if the solutions are identical. Because BLUPF90 programs use the latter, we will describe the model with this rule.
 
 In this case, the variance of $\mathbf{y}$ is
 $$
 \mathrm{var}(\mathbf{y}) = \mathbf{Z}\left(\mathbf{A} \otimes \mathbf{G}_{0}\right)\mathbf{Z}' + \mathbf{I} \otimes \mathbf{R}_{0}
 $$
-where $\mathbf{G}_{0}$ is the genetic variance-covariance matrix among traits ($2 \times 2$ in this case), $\mathbf{R}_{0}$ is the residual variance-covariance matrix among traits (also $2 \times 2$ in this case), $\mathbf{I}$ is the identity matrix ($N \times N$; $N$ is the number of observations in a trait) and $\otimes$ is an operator for Kronecker product.
-Elements of each covariance matrix and its inverse can be written as
+where $\mathbf{G}_{0}$ is the genetic variance-covariance matrix among traits ($2 \times 2$ in this case), $\mathbf{R}_{0}$ is the residual variance-covariance matrix among traits (also $2 \times 2$ in this case), $\mathbf{I}$ is the identity matrix ($N \times N$; $N$ is the number of observations in a trait) and $\otimes$ is an operator for Kronecker product. Elements of each covariance matrix and its inverse can be written as
 $$
 \begin{aligned}
 \mathbf{G}_{0}
@@ -94,8 +87,7 @@ $$
 \end{aligned}
 $$
 
-Kronecker product is not a regular product.
-Consult the following examples:
+Kronecker product is not a regular product. Consult the following examples:
 $$
 \mathbf{A}\otimes\mathbf{G}_{0}
 =
@@ -121,8 +113,7 @@ a_{n1}\mathbf{G}_{0}&a_{n2}\mathbf{G}_{0}&\cdots&a_{nn}\mathbf{G}_{0}\\
 \end{array}
 \right]
 $$
-where $n$ is the number of pedigree animals and $a_{ij}$ is the $i$th row and the $j$th column element of $\mathbf{A}$.
-In the latter equation, $\mathbf{R}_{0}$ is repeated $N$ times on diagonal.
+where $n$ is the number of pedigree animals and $a_{ij}$ is the $i$th row and the $j$th column element of $\mathbf{A}$. In the latter equation, $\mathbf{R}_{0}$ is repeated $N$ times on diagonal.
 
 The system of mixed model equations is
 $$
@@ -146,15 +137,11 @@ $$
 \end{array}
 \right].
 $$
-This may look very different from a typical description for some people.
-But, again, the form of the equations don't affect the solutions.
+This may look very different from a typical description for some people. But, again, the form of the equations do not affect the solutions.
 
 ### Required files ###
 
-In this 2-trait model, we need 2 columns for observations (one for the trait 1 and the other one for trait 2).
-Also, we need the columns for effects in each trait.
-We assume the same model in both traits.
-We can share the same columns for the effects in the data file.
+In this two-trait model, we need 2 columns for observations (one for the trait 1 and the other one for trait 2). Also, we need the columns for effects in each trait. We assume the same model in both traits. We can share the same columns for the effects in the data file.
 
 As an example, we extend the data used in the previous animal model analysis.
 
@@ -171,8 +158,7 @@ As an example, we extend the data used in the previous animal model analysis.
   4.0   4.5  3  2  2.0  15
 ~~~~~
 
-The pedigree file is the same as the previous one.
-Here we changed the file name with the same content.
+The pedigree file is the same as the previous one. Here we changed the file name with the same content.
 
 ~~~~~{language=text caption="pedigree5.txt"}
   1   0   0
@@ -192,8 +178,7 @@ Here we changed the file name with the same content.
  15  11  10
 ~~~~~
 
-The parameter file also looks like very similar to the previous one except it describes covariance matrices and a model for each trait.
-We assume $\sigma_{g1}^2=0.5$, $\sigma_{g12}=-0.25$, and $\sigma_{g2}^{2}=1.0$ for genetic (co)variances and $\sigma_{e1}^{2}=2.0$, $\sigma_{e12} = 1.0$, and $\sigma_{e2} = 1.5$ for residual (co)variances.
+The parameter file also looks like very similar to the previous one except it describes covariance matrices and a model for each trait. We assume $\sigma_{g1}^2=0.5$, $\sigma_{g12}=-0.25$, and $\sigma_{g2}^{2}=1.0$ for genetic (co)variances and $\sigma_{e1}^{2}=2.0$, $\sigma_{e12} = 1.0$, and $\sigma_{e2} = 1.5$ for residual (co)variances.
 
 ~~~~~{language=blupf90 caption="param5.txt"}
 DATAFILE
@@ -241,12 +226,9 @@ For a multiple-trait mode, we should carefully describe the following values.
 - `(CO)VARIANCES` = genetic covariance matrix
     - full $2 \times 2$ matrix; total 4 elements should be here.
 
-You should be careful to write the `EFFECT:` block.
-With 2-trait model, each statement has to have 4 elements; the first 2 for the positions of effect for each trait in the data file, the next 1 for the number of levels and the last 1 for effect type.
-If you run a model with $n$ traits, the first $n$ elements should be the positions of effects for each trait.
+You should be careful to write the `EFFECT:` block. With two-trait model, each statement has to have 4 elements; the first 2 for the positions of effect for each trait in the data file, the next 1 for the number of levels and the last 1 for effect type. If you run a model with $n$ traits, the first $n$ elements should be the positions of effects for each trait.
 
-Residual and genetic covariance matrices should be fully described i.e., all upper, diagonal, and lower elements.
-The lines including a covariance matrix can't accept comments.
+Residual and genetic covariance matrices should be fully described i.e., all upper, diagonal, and lower elements. The lines including a covariance matrix can't accept comments.
 
 
 Resulting solutions
@@ -300,31 +282,19 @@ trait/effect level  solution
    2   4        15      2.01449847
 ~~~~~
 
-This is long because every effect was considered in both traits.
-The format is the same as the previous one except for the first column containing 1 or 2.
-You can obtain 2 solutions, for trait 1 and trait 2, in every effect.
-For example, estimated breeding values for animal 13 are 0.1055 for trait 1 and 0.0702 for trait 2.
+This is long because every effect was considered in both traits. The format is the same as the previous one except for the first column containing 1 or 2. You can obtain 2 solutions, for trait 1 and trait 2, in every effect. For example, estimated breeding values for animal 13 are 0.1055 for trait 1 and 0.0702 for trait 2.
 
-For your information, the order of solutions in the file is the same as in memory.
-It is corresponding to the matrix notation described before.
+For your information, the order of solutions in the file is the same as in memory. It is corresponding to the matrix notation described before.
 
 
 Remarks
 -------
 
-You can put a missing observation in the data file.
-The missing value is `0` by default but you can change the value with an option `OPTION missing`.
-The missing code is an integer value (positive or negative).
-At least 1 trait has a real observation.
-In other words, missing-in-all-traits is not allowed.
+You can put a missing observation in the data file. The missing value is `0` by default but you can change the value with an option `OPTION missing`. The missing code is an integer value (positive or negative). At least 1 trait has a real observation. In other words, missing-in-all-traits is not allowed.
 
-The program supports different models in different traits (unequal design matrices).
-You can put 0 as a position in `EFFECT:` block if the trait doesn't the effect.
-At least 1 trait has to have a non-zero position.
-We will see such models in the later chapter.
+The program supports different models in different traits (unequal design matrices). You can put 0 as a position in `EFFECT:` block if the trait doesn't the effect. At least 1 trait has to have a non-zero position. We will see such models in the later chapter.
 
-Single-step GBLUP is supported in the multiple-trait model.
-You can add `OPTION SNP_file` to perform such a model.
+Single-step GBLUP is supported in the multiple-trait model. You can add `OPTION SNP_file` to perform such a model.
 
 
 Summary
@@ -335,4 +305,4 @@ Summary
 - Parameter file should be modified to fit the multiple-trait model.
 - In the `EFFECT:` block, each statement should have $n$ positions of effects for $n$ trait model.
 - Missing values are allowed. The default is 0 and you can change the missing code with an option.
-- Each trait may have a different model i.e., different effects.
+- Each trait may have a different model, i.e., different effects.

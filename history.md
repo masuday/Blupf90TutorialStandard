@@ -3,3 +3,4 @@
 - May 2019 (0.9.1): Minor update.
 - September 5, 2019 (1.0.0): Revised to make a massive correction on errors and typos, to improve many sentences in readability, and to add new paragraphs.
 - September 22, 2019 (1.0.1): Revised to fix some typos and errors. Updated the example for ssGWAS.
+- April 30, 2025 (1.1.0): Intensively revised and proofread. Changed paragraph format for newer `pandoc` versions. Added relevant descriptions and removed outdated information. Updated explanations regarding the new programs (`blupf90+` and `gibbsf90+`). Full support for the new programs will be provided in the next edition.
