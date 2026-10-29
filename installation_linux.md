@@ -54,6 +54,109 @@ export PATH=~/bin:$PATH
 
 If the program is located in a different directory, replace `~/bin` with the correct path. This setting is temporary and will disappear when you log out. To make it permanent, add the command to your `.bash_profile`. If you are unsure how to do this, open `.bash_profile` with a text editor and add the line at the end. Log out and log back in for the change to take effect.
 
+Installing dependencies on Ubuntu 24.04 (Intel MKL runtime)
+------------------------------------------------------------
+
+Starting in 2025, new BLUPF90 binaries are compiled with a recent Intel Fortran compiler (`ifx`) and linked against the Intel MKL (Math Kernel Library). Running these binaries on a machine that does not have the Intel MKL runtime libraries installed will fail with an error such as:
+
+~~~~~{language=shell}
+./blupf90+: error while loading shared libraries: libmkl_intel_lp64.so.2: cannot open shared object file: No such file or directory
+~~~~~
+
+This is *not* a file-permission or `PATH` problem it means the MKL shared libraries (`.so` files) that the program needs at runtime are missing from the system. The steps below describe how to install them on Ubuntu 24.04 (tested on Ubuntu 24.04 LTS, "noble").
+
+### 1. Install the Intel MKL runtime via the official oneAPI APT repository
+
+The BLUPF90 authors recommend installing the Intel Fortran Libraries (which include MKL) from Intel's own oneAPI distribution, rather than the older `libmkl-intel-lp64` package available in Ubuntu's `multiverse` repository. The Ubuntu package tends to be an older MKL release and may not match the ABI expected by the newest BLUPF90 binaries.
+
+~~~~~{language=shell}
+# Prerequisites
+sudo apt update
+sudo apt install -y gpg-agent wget
+
+# Add Intel's GPG key and oneAPI APT repository
+wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | \
+  gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null
+
+echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | \
+  sudo tee /etc/apt/sources.list.d/oneAPI.list
+
+sudo apt update
+
+# Install just the MKL and Fortran runtime packages (much lighter than the full toolkit)
+sudo apt install intel-oneapi-mkl intel-oneapi-runtime-fortran intel-oneapi-runtime-libs
+~~~~~
+
+This installs the libraries under `/opt/intel/oneapi/`.
+
+### 2. Load the oneAPI environment
+
+Intel provides a `setvars.sh` script that configures `LD_LIBRARY_PATH` (and other variables) so the dynamic linker can find the MKL libraries. Source it in your shell (add this line to `~/.bashrc` to make it permanent, or run it manually in each new session):
+
+~~~~~{language=shell}
+source /opt/intel/oneapi/setvars.sh
+~~~~~
+
+Note that `setvars.sh` refuses to run twice in the same shell session unless you pass `--force`; this is expected behavior and not an error.
+
+### 3. Check for missing libraries
+
+Use `ldd` to confirm all shared libraries required by the binary are found:
+
+~~~~~{language=shell}
+ldd ./blupf90+ | grep "not found"
+~~~~~
+
+An empty result means everything was found. If some libraries are still reported as `not found`, keep reading.
+
+### 4. Version mismatch between the binary and the installed MKL (`.so.2` vs `.so.3`)
+
+The MKL shared library file names include a version number in the `SONAME` (e.g., `libmkl_intel_lp64.so.2`). This number changed between MKL releases: MKL 2025.x and earlier ship `.so.2`, while the APT `oneAPI` repository may install a newer release (e.g., 2026.x) that ships `.so.3` instead. If the BLUPF90 binary was compiled against an older MKL, `ldd` will keep reporting the `.so.2` files as missing even though the (renamed) libraries are present on disk, for example:
+
+~~~~~{language=shell}
+libmkl_intel_lp64.so.2 => not found
+libmkl_intel_thread.so.2 => not found
+libmkl_core.so.2 => not found
+~~~~~
+
+First, locate where the installed libraries actually are:
+
+~~~~~{language=shell}
+find /opt/intel/oneapi -name "libmkl_intel_lp64*"
+find /opt/intel/oneapi -name "libmkl_core*"
+~~~~~
+
+If you find `.so.3` files but not `.so.2` (e.g., under `/opt/intel/oneapi/mkl/<version>/lib/`), you have two options:
+
+**Option A - Install the exact older MKL version that ships `.so.2` (cleaner)**
+
+~~~~~{language=shell}
+apt-cache madison intel-oneapi-mkl
+sudo apt install intel-oneapi-mkl=<version-that-ships-so.2>
+~~~~~
+
+**Option B - Create symbolic links (quick workaround, used in this tutorial)**
+
+The classic MKL interface (LP64/BLAS/LAPACK) is normally binary-compatible across these releases, so linking the old file name to the new file generally works in practice:
+
+~~~~~{language=shell}
+cd /opt/intel/oneapi/mkl/<version>/lib
+sudo ln -s libmkl_intel_lp64.so.3 libmkl_intel_lp64.so.2
+sudo ln -s libmkl_core.so.3 libmkl_core.so.2
+sudo ln -s libmkl_intel_thread.so.3 libmkl_intel_thread.so.2
+sudo ldconfig
+~~~~~
+
+Replace `<version>` with the folder name found in the previous step (e.g., `2026.1`). After creating the links, re-run:
+
+~~~~~{language=shell}
+ldd ./blupf90+ | grep "not found"
+~~~~~
+
+An empty result confirms the program can now find all required libraries, and `./blupf90+` should start normally and prompt for the parameter file name.
+
+**Note:** if you later update the `intel-oneapi-mkl` package to a new version, the version folder under `/opt/intel/oneapi/mkl/` may change and the symbolic links above will need to be re-created for the new folder.
+
 Running a program
 -----------------
 
